@@ -1,0 +1,32 @@
+
+#background {
+  viewport-fill: black;
+}
+
+.tile-list-item {
+  height: 88;
+}
+
+.tile-divider-bottom {
+  x: 0;
+  y: 100%-2;
+  width: 100%;
+  height: 2;
+  fill: #A0A0A0;
+}
+
+.itemText {
+  font-size: 24;
+  font-family: Colfax-Regular;
+  text-anchor: start;
+  text-length: 64;
+  fill: #FFFFFF
+}
+
+.itemState {
+  font-size: 24;
+  font-family: Colfax-Regular;
+  text-anchor: start;
+  text-length: 64;
+  fill: #2490DD
+}
