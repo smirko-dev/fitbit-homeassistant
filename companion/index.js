@@ -96,8 +96,12 @@ function updateEntity(ip, token, entity, state) {
     const json = JSON.stringify({
         entity_id: `${entity}`
     });
+    let group = "switch";
+    if (entity.startsWith("light")) {
+        group = "light";
+    }
     console.log(`Update ${entity}: ${state} (${json})`);
-    fetch(`http://${ip}:8123/api/services/switch/${state}`, {
+    fetch(`http://${ip}:8123/api/services/${group}/${state}`, {
         method: "POST",
         body: json,
         headers: {
