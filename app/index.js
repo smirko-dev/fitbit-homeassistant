@@ -10,7 +10,13 @@ import document from "document";
 const Available = false;
 const EntityList = document.getElementById("entityList");
 
-// List of {name: "", state: ""}
+// Load settings
+let settings = loadSettings();
+
+// Register for the unload event
+me.onunload = saveSettings;
+
+// List of {id: "", name: "", state: ""}
 const Entities = [];
 
 function setupList(list, data) {
@@ -34,7 +40,7 @@ function setupList(list, data) {
                     if (info.state === "ON") {
                         state = "turn_off";
                     }
-                    sendData({key: "entity", entity: Entities[info.index].name, state: `${state}`});
+                    sendData({key: "entity", entity: Entities[info.index].id, state: `${state}`});
                 };
             }
         }
@@ -45,25 +51,24 @@ function setupList(list, data) {
 // Received message
 messaging.peerSocket.onmessage = (evt) => {
     console.log(`Received: ${JSON.stringify(evt)}`);
-    if (evt.data.key === "entities") {
+    if (evt.data.key === "clear") {
         Entities = [];
-        let data = JSON.parse(evt.data.value);
-        data.forEach(entity => {
-            console.log("Added " + entity["name"]);
-            Entities.push({name: entity["name"], state: "OFF"});
-            setupList(EntityList, Entities);
-        })
     }
-    else if (evt.data.key === "entity") {
+    else if (evt.data.key === "add") {
+        console.log("Added " + evt.data.name);
+        Entities.push({id: evt.data.id, name: evt.data.name, state: evt.data.state});
+        setupList(EntityList, Entities);
+    }
+    else if (evt.data.key === "update") {
         Entities.forEach((entity, index) => {
-            if (entity.name === evt.data.id) {
+            if (entity.id === evt.data.id) {
                 if (evt.data.state === "on") {
                     Entities[index].state = "ON";
-                    console.log("Changed " + entity.name + " ON");
+                    console.log("Changed " + entity.id + " ON");
                 }
                 else {
                     Entities[index].state = "OFF";
-                    console.log("Changed " + entity.name + " OFF");
+                    console.log("Changed " + entity.id + " OFF");
                 }
                 setupList(EntityList, Entities);
             }
@@ -89,9 +94,27 @@ messaging.peerSocket.onclose = () => {
     console.log("Socket closed");
 };
 
+// Send data to companion
 function sendData(data) {
     if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
         console.log(`Sent: ${JSON.stringify(data)}`);
         messaging.peerSocket.send(data);
     }
 }
+
+// Load settings
+function loadSettings() {
+    try {
+        return fs.readFileSync(settingsFile, settingsType);
+    }
+    catch (ex) {
+        // Default values
+        return {};
+    }
+}
+
+// Save settings
+function saveSettings() {
+    fs.writeFileSync(settingsFile, settings, settingsType);
+}
+  

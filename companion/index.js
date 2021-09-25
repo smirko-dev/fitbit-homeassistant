@@ -18,14 +18,14 @@ settingsStorage.onchange = function(evt) {
         Token = data["name"];
     }
     else if (evt.key === "entities") {
-        let data = {
-            key: evt.key,
-            value: evt.newValue
-        };
-        sendData(data);
+        sendData({key: "clear"});
+        JSON.parse(evt.newValue).forEach(element => {
+            fetchEntity("192.168.178.100", Token, element["name"]);
+        })
     }
 }
 
+// Send data to app
 function sendData(data) {
     if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
         console.log(`Sent: ${JSON.stringify(data)}`);
@@ -33,7 +33,8 @@ function sendData(data) {
     }
 }
 
-function fetchEntity(ip, token, index, entity) {
+// Get entity info
+function fetchEntity(ip, token, entity) {
     fetch(`http://${ip}:8123/api/states/${entity}`, {
         method: "GET",
         headers: {
@@ -46,17 +47,26 @@ function fetchEntity(ip, token, index, entity) {
     })
     .then(function(data) {
         let msgData = {
-            key: "entity",
-            index: index,
+            key: "add",
             id: data["entity_id"],
-            name: data["attributes"]["friendly_name"],
+            name: data["entity_id"],
             state: data["state"],
         };
+        if (data["attributes"] && data["attributes"]["friendly_name"]) {
+            msgData.name = data["attributes"]["friendly_name"];
+        }
+        if (msgData.state === "on") {
+            msgData.state = "ON";
+        }
+        else {
+            msgData.state = "OFF";
+        }
         sendData(msgData);
     })
     .catch(err => console.log('[FETCH]: ' + err));
 }
 
+// Get Availability of HA
 function fetchApiStatus(ip, token) {
     fetch(`http://${ip}:8123/api/`, {
         method: "GET",
@@ -81,6 +91,7 @@ function fetchApiStatus(ip, token) {
     .catch(err => console.log('[FETCH]: ' + err));
 }
 
+// Change entity state
 function updateEntity(ip, token, entity, state) {
     const json = JSON.stringify({
         entity_id: `${entity}`
@@ -102,7 +113,7 @@ function updateEntity(ip, token, entity, state) {
         data.forEach(element => {
             if (element["entity_id"] === entity) {
                 let msgData = {
-                    key: "entity",
+                    key: "update",
                     id: element["entity_id"],
                     state: element["state"],
                 };
