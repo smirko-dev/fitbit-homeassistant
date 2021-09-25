@@ -10,6 +10,7 @@ import document from "document";
 
 const Available = false;
 const EntityList = document.getElementById("entityList");
+const AddressText = document.getElementById("addressText");
 
 // Load settings
 let settings = loadSettings();
@@ -80,9 +81,11 @@ messaging.peerSocket.onmessage = (evt) => {
     else if (evt.data.key === "api") {
         if (evt.data.value === "true") {
             Available = true;
+            AddressText.text = settings.ip;
         }
         else {
             Available = false;
+            AddressText.text = "unavailable";
         }
     }
     else if (evt.data.key === "ip") {

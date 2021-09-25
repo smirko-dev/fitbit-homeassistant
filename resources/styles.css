@@ -29,3 +29,27 @@
   text-length: 64;
   fill: #2490DD
 }
+
+.titleText {
+  x: 50%;
+  y: 10%;
+  width: 100%;
+  height: 10%;
+  font-size: 32;
+  font-family: Colfax-Regular;
+  text-anchor: middle;
+  text-length: 64;
+  fill: #2490DD
+}
+
+.addressText {
+  x: 50%;
+  y: 20%;
+  width: 100%;
+  height: 10%;
+  font-size: 22;
+  font-family: Colfax-Regular;
+  text-anchor: middle;
+  text-length: 64;
+  fill: #A0A0A0
+}

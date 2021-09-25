@@ -9,7 +9,11 @@
             height="100%-2" opacity="0" />
     </symbol>
   </defs>
-  <use id="entityList" href="#tile-list">
+
+  <text id="titleText" class="titleText">Home Assistant</text>
+  <text id="addressText" class="addressText">ip address</text>
+
+  <use id="entityList" y="20%" height="80%" href="#tile-list">
     <var id="virtual" value="1" />
     <var id="separator-height-bottom" value="2" />
 
