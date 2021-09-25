@@ -1,0 +1,41 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: FitbitBuild
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout branch
+      uses: actions/checkout@v2
+      with:
+          lfs: true
+
+    - name: Setup node
+      uses: actions/setup-node@v1
+
+    - name: Checkout Fitbit SDK
+      run: npm add --also=dev @fitbit/sdk
+
+    - name: Checkout Fitbit SDK-CLI
+      run: npm add --also=dev @fitbit/sdk-cli
+
+    - name: Run Build
+      run: npx fitbit-build --if-present
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      if: ${{ success() }}
+      with:
+        path: build/app.fba
+        if-no-files-found: error

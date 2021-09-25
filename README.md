@@ -4,6 +4,8 @@
 ![platform](https://img.shields.io/badge/platforms-Ionic%20|%20Versa%20|%20Versa%202%20|%20Versa%20Lite-silver)
 ![version](https://img.shields.io/badge/version-%200.1.0-green)
 [![](https://img.shields.io/github/license/smirko-dev/fitbit-homeassistant.svg)](https://github.com/smirko-dev/fitbit-homeassistant/blob/master/LICENSE)
+[![FitbitBuild Actions Status](https://github.com/smirko-dev/fitbit-homeassistant/workflows/FitbitBuild/badge.svg)](https://github.com/smirko-dev/fitbit-homeassistant/actions)
+[![CodeQL Actions Status](https://github.com/smirko-dev/fitbit-homeassistant/workflows/CodeQL/badge.svg)](https://github.com/smirko-dev/fitbit-clohomeassistantckface/actions)
 
 ## Description
 
