@@ -111,7 +111,6 @@ function changeEntity(ip, token, entity, state) {
         return res.json();
     })
     .then(function(data) {
-        console.log(`Ack ${JSON.stringify(data)}`);
         data.forEach(element => {
             if (element["entity_id"] === entity) {
                 let msgData = {
@@ -153,5 +152,11 @@ messaging.peerSocket.onmessage = evt => {
         if (IP && Token) {
             fetchApiStatus(IP, Token);
         }
+    }
+    else if (evt.data.key === "entities") {
+        sendData({key: "clear"});
+        evt.data.value.forEach(element => {
+            fetchEntity(IP, Token, element["name"]);
+        })
     }
 };

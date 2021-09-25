@@ -54,10 +54,12 @@ messaging.peerSocket.onmessage = (evt) => {
     console.log(`Received: ${JSON.stringify(evt)}`);
     if (evt.data.key === "clear") {
         Entities = [];
+        settings.entities = [];
     }
     else if (evt.data.key === "add") {
-        console.log("Added " + evt.data.name);
+        console.log("Added " + evt.data.id + "(" + evt.data.name + ")");
         Entities.push({id: evt.data.id, name: evt.data.name, state: evt.data.state});
+        settings.entities.push({name: evt.data.id});
         setupList(EntityList, Entities);
     }
     else if (evt.data.key === "change") {
@@ -98,6 +100,7 @@ messaging.peerSocket.onopen = () => {
     console.log("Socket open");
     sendData({key: "ip", value: settings.ip});
     sendData({key: "token", value: settings.token});
+    sendData({key: "entities", value: settings.entities});
 };
   
 // Message socket closes
@@ -121,6 +124,5 @@ function loadSettings() {
 
 // Save settings
 function saveSettings() {
-    settings.entities = Entities;
     fs.writeFileSync(settingsFile, settings, settingsType);
 }
