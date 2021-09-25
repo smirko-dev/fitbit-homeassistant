@@ -4,6 +4,7 @@ import * as messaging from "messaging";
 
 import { me } from "appbit";
 import { settingsType, settingsFile } from "../common/constants";
+import { sendData } from "../common/utils";
 
 import document from "document";
 
@@ -40,7 +41,7 @@ function setupList(list, data) {
                     if (info.state === "ON") {
                         state = "turn_off";
                     }
-                    sendData({key: "entity", entity: Entities[info.index].id, state: `${state}`});
+                    sendData({key: "change", entity: Entities[info.index].id, state: `${state}`});
                 };
             }
         }
@@ -59,7 +60,7 @@ messaging.peerSocket.onmessage = (evt) => {
         Entities.push({id: evt.data.id, name: evt.data.name, state: evt.data.state});
         setupList(EntityList, Entities);
     }
-    else if (evt.data.key === "update") {
+    else if (evt.data.key === "change") {
         Entities.forEach((entity, index) => {
             if (entity.id === evt.data.id) {
                 if (evt.data.state === "on") {
@@ -82,25 +83,27 @@ messaging.peerSocket.onmessage = (evt) => {
             Available = false;
         }
     }
+    else if (evt.data.key === "ip") {
+        settings.ip = evt.data.value;
+        sendData({key: "ip", value: settings.ip});
+    }
+    else if (evt.data.key === "token") {
+        settings.token = evt.data.value;
+        sendData({key: "token", value: settings.token});
+    }
 }
 
 // Message socket opens
 messaging.peerSocket.onopen = () => {
     console.log("Socket open");
+    sendData({key: "ip", value: settings.ip});
+    sendData({key: "token", value: settings.token});
 };
   
 // Message socket closes
 messaging.peerSocket.onclose = () => {
     console.log("Socket closed");
 };
-
-// Send data to companion
-function sendData(data) {
-    if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
-        console.log(`Sent: ${JSON.stringify(data)}`);
-        messaging.peerSocket.send(data);
-    }
-}
 
 // Load settings
 function loadSettings() {
@@ -109,12 +112,15 @@ function loadSettings() {
     }
     catch (ex) {
         // Default values
-        return {};
+        return {
+            ip: "localhost",
+            token: ""
+        };
     }
 }
 
 // Save settings
 function saveSettings() {
+    settings.entities = Entities;
     fs.writeFileSync(settingsFile, settings, settingsType);
 }
-  

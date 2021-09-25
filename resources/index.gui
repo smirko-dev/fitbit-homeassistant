@@ -2,8 +2,8 @@
   <defs>
     <symbol id="tile-item" href="#tile-list-item" focusable="false"
             pointer-events="none" system-events="all" display="none">
-      <text id="itemText" x="0%" width="80%" class="itemText" />
-      <text id="itemState" x="80%" width="20%" class="itemState" />
+      <text id="itemText" x="2%" width="80%" class="itemText" />
+      <text id="itemState" x="80%" width="18%" class="itemState" />
       <rect id="tile-divider-bottom" class="tile-divider-bottom" />
       <rect id="itemTouch" pointer-events="all" x="0" y="0" width="100%"
             height="100%-2" opacity="0" />

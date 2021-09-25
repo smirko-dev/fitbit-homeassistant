@@ -1,2 +1,2 @@
-export const settingsType = "cbor";
-export const settingsFile = "settings.cbor";
+export const settingsType = "json";
+export const settingsFile = "settings.json";
