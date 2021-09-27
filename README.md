@@ -9,6 +9,8 @@
 
 ## Description
 
+Icon from https://icon-icons.com/de/symbol/home-assistant/138491 (Apache License, Version 2.0)
+
 ## Screenshots
 
 ## How to build
