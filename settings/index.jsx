@@ -1,7 +1,7 @@
 registerSettingsPage(({ settings }) => (
 <Page>
     <Section>
-        <TextInput label="IP" settingsKey="ip" />
+        <TextInput label="URL" settingsKey="url" placeholder="https://127.0.0.1" />
         <TextInput label="Token" settingsKey="token" />
     </Section>
     <Section>

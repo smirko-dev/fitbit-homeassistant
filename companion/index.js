@@ -5,15 +5,15 @@ import { settingsStorage } from "settings";
 import { sendData } from "../common/utils";
 
 let Available = false;
-let IP = ""
+let URL = ""
 let Token = ""
 
 // Settings have been changed
 settingsStorage.onchange = function(evt) {
-    if (evt.key === "ip") {
+    if (evt.key === "url") {
         let data = JSON.parse(evt.newValue);
-        console.log("Changed IP " + data["name"]);
-        sendData({key: "ip", value: data["name"]});
+        console.log("Changed URL " + data["name"]);
+        sendData({key: "url", value: data["name"]});
     }
     else if (evt.key === "token") {
         let data = JSON.parse(evt.newValue);
@@ -23,14 +23,14 @@ settingsStorage.onchange = function(evt) {
     else if (evt.key === "entities") {
         sendData({key: "clear"});
         JSON.parse(evt.newValue).forEach(element => {
-            fetchEntity(IP, Token, element["name"]);
+            fetchEntity(URL, Token, element["name"]);
         })
     }
 }
 
 // Get entity info
-function fetchEntity(ip, token, entity) {
-    fetch(`http://${ip}:8123/api/states/${entity}`, {
+function fetchEntity(url, token, entity) {
+    fetch(`${url}:8123/api/states/${entity}`, {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${token}`,
@@ -62,8 +62,8 @@ function fetchEntity(ip, token, entity) {
 }
 
 // Get Availability of HA
-function fetchApiStatus(ip, token) {
-    fetch(`http://${ip}:8123/api/`, {
+function fetchApiStatus(url, token) {
+    fetch(`${url}:8123/api/`, {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${token}`,
@@ -87,7 +87,7 @@ function fetchApiStatus(ip, token) {
 }
 
 // Change entity state
-function changeEntity(ip, token, entity, state) {
+function changeEntity(url, token, entity, state) {
     const json = JSON.stringify({
         entity_id: `${entity}`
     });
@@ -99,7 +99,7 @@ function changeEntity(ip, token, entity, state) {
         group = "homeassistant";
     }
     console.log(`Update ${entity}: ${state} (${json})`);
-    fetch(`http://${ip}:8123/api/services/${group}/${state}`, {
+    fetch(`${url}:8123/api/services/${group}/${state}`, {
         method: "POST",
         body: json,
         headers: {
@@ -141,16 +141,16 @@ messaging.peerSocket.onmessage = evt => {
     if (evt.data.key === "change") {
         changeEntity(IP, Token, evt.data.entity, evt.data.state);
     }
-    else if (evt.data.key === "ip") {
-        IP = evt.data.value;
-        if (IP && Token) {
-            fetchApiStatus(IP, Token);
+    else if (evt.data.key === "url") {
+        URL = evt.data.value;
+        if (URL && Token) {
+            fetchApiStatus(URL, Token);
         }
     }
     else if (evt.data.key === "token") {
         Token = evt.data.value;
-        if (IP && Token) {
-            fetchApiStatus(IP, Token);
+        if (URL && Token) {
+            fetchApiStatus(URL, Token);
         }
     }
     else if (evt.data.key === "entities") {

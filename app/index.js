@@ -11,6 +11,7 @@ import document from "document";
 const Available = false;
 const EntityList = document.getElementById("entityList");
 const AddressText = document.getElementById("addressText");
+AddressText.text = "unavailable";
 
 // Load settings
 let settings = loadSettings();
@@ -88,9 +89,9 @@ messaging.peerSocket.onmessage = (evt) => {
             AddressText.text = "unavailable";
         }
     }
-    else if (evt.data.key === "ip") {
-        settings.ip = evt.data.value;
-        sendData({key: "ip", value: settings.ip});
+    else if (evt.data.key === "url") {
+        settings.url = evt.data.value;
+        sendData({key: "url", value: settings.url});
     }
     else if (evt.data.key === "token") {
         settings.token = evt.data.value;
@@ -101,7 +102,7 @@ messaging.peerSocket.onmessage = (evt) => {
 // Message socket opens
 messaging.peerSocket.onopen = () => {
     console.log("Socket open");
-    sendData({key: "ip", value: settings.ip});
+    sendData({key: "url", value: settings.url});
     sendData({key: "token", value: settings.token});
     sendData({key: "entities", value: settings.entities});
 };
