@@ -1,10 +1,10 @@
 {
   "devDependencies": {
-    "@fitbit/sdk": "~4.3.0",
+    "@fitbit/sdk": "~4.3.2",
     "@fitbit/sdk-cli": "^1.7.3"
   },
   "name": "homeassistant",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "license": "UNLICENSED",
   "fitbit": {

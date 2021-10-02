@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as messaging from "messaging";
 
 import { me } from "appbit";
+import { gettext } from "i18n";
 import { settingsType, settingsFile } from "../common/constants";
 import { sendData } from "../common/utils";
 
@@ -11,7 +12,7 @@ import document from "document";
 const Available = false;
 const EntityList = document.getElementById("entityList");
 const AddressText = document.getElementById("addressText");
-AddressText.text = "unavailable";
+AddressText.text = gettext("unavailable");
 
 // Load settings
 let settings = loadSettings();
@@ -38,7 +39,7 @@ function setupList(list, data) {
                 tile.getElementById("itemState").text = `${info.state}`;
                 let touch = tile.getElementById("itemTouch");
                 touch.onclick = evt => {
-                    console.log(`Touched [${info.index}] ${info.name} = ${info.state}`);
+                    //console.log(`Touched [${info.index}] ${info.name} = ${info.state}`);
                     let state = "turn_on";
                     if (info.state === "ON") {
                         state = "turn_off";
@@ -59,7 +60,7 @@ messaging.peerSocket.onmessage = (evt) => {
         settings.entities = [];
     }
     else if (evt.data.key === "add") {
-        console.log("Added " + evt.data.id + "(" + evt.data.name + ")");
+        //console.log("Added " + evt.data.id + "(" + evt.data.name + ")");
         Entities.push({id: evt.data.id, name: evt.data.name, state: evt.data.state});
         settings.entities.push({name: evt.data.id});
         setupList(EntityList, Entities);
@@ -69,24 +70,24 @@ messaging.peerSocket.onmessage = (evt) => {
             if (entity.id === evt.data.id) {
                 if (evt.data.state === "on") {
                     Entities[index].state = "ON";
-                    console.log("Changed " + entity.id + " ON");
+                    //console.log("Changed " + entity.id + " ON");
                 }
                 else {
                     Entities[index].state = "OFF";
-                    console.log("Changed " + entity.id + " OFF");
+                    //console.log("Changed " + entity.id + " OFF");
                 }
                 setupList(EntityList, Entities);
             }
         })
     }
     else if (evt.data.key === "api") {
-        if (evt.data.value === "true") {
+        if (evt.data.value === "ok") {
             Available = true;
             AddressText.text = settings.ip;
         }
         else {
             Available = false;
-            AddressText.text = "unavailable";
+            AddressText.text = evt.data.value;
         }
     }
     else if (evt.data.key === "url") {

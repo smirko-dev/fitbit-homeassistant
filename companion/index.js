@@ -1,5 +1,6 @@
 
 import * as messaging from "messaging";
+import { gettext } from "i18n";
 
 import { settingsStorage } from "settings";
 import { sendData } from "../common/utils";
@@ -12,12 +13,12 @@ let Token = ""
 settingsStorage.onchange = function(evt) {
     if (evt.key === "url") {
         let data = JSON.parse(evt.newValue);
-        console.log("Changed URL " + data["name"]);
+        //console.log("Changed URL " + data["name"]);
         sendData({key: "url", value: data["name"]});
     }
     else if (evt.key === "token") {
         let data = JSON.parse(evt.newValue);
-        console.log("Changed Token " + data["name"]);
+        //console.log("Changed Token " + data["name"]);
         sendData({key: "token", value: data["name"]});
     }
     else if (evt.key === "entities") {
@@ -70,20 +71,32 @@ function fetchApiStatus(url, token) {
             "content-type": "application/json",
         }
     })
-    .then(function(res) {
-        return res.json();
-    })
-    .then(function(data) {
-        if (data["message"] === "API running.") {
-            sendData({key: "api", value: "true"});
-            Available = true;
+    .then(async(response) => {
+        let data = await response.json();
+        if (response.status === 200) {
+            if (data["message"] === "API running.") {
+                sendData({key: "api", value: "ok"});
+                Available = true;
+            }
+            else {
+                sendData({key: "api", value: data["message"]});
+                Available = false;
+            }
         }
         else {
-            sendData({key: "api", value: "false"});
+            const json = JSON.stringify({
+                key: "api",
+                value: `ErrorCode ${response.status}`
+            });
+            sendData(json);
             Available = false;
         }
     })
-    .catch(err => console.log('[FETCH]: ' + err));
+    .catch(err => {
+        console.log('[FETCH]: ' + err);
+        sendData({key: "api", value: gettext("connection_error")});
+        Available = false;
+    })
 }
 
 // Change entity state
@@ -98,7 +111,7 @@ function changeEntity(url, token, entity, state) {
     else if (entity.startsWith("group")) {
         group = "homeassistant";
     }
-    console.log(`Update ${entity}: ${state} (${json})`);
+    //console.log(`Update ${entity}: ${state} (${json})`);
     fetch(`${url}:8123/api/services/${group}/${state}`, {
         method: "POST",
         body: json,
@@ -139,7 +152,7 @@ messaging.peerSocket.onclose = () => {
 messaging.peerSocket.onmessage = evt => {
     console.log(`Received: ${JSON.stringify(evt.data)}`);
     if (evt.data.key === "change") {
-        changeEntity(IP, Token, evt.data.entity, evt.data.state);
+        changeEntity(URL, Token, evt.data.entity, evt.data.state);
     }
     else if (evt.data.key === "url") {
         URL = evt.data.value;
@@ -156,7 +169,7 @@ messaging.peerSocket.onmessage = evt => {
     else if (evt.data.key === "entities") {
         sendData({key: "clear"});
         evt.data.value.forEach(element => {
-            fetchEntity(IP, Token, element["name"]);
+            fetchEntity(URL, Token, element["name"]);
         })
     }
 };

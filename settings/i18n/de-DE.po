@@ -1,0 +1,6 @@
+
+msgid "add_title"
+msgstr "Neues Objekt"
+
+msgid "add_label"
+msgstr "Objekt hinzufügen"

@@ -1,0 +1,6 @@
+
+msgid "unavailable"
+msgstr "Unavailable"
+
+msgid "connection_error"
+msgstr "Connection error"

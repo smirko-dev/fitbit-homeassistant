@@ -1,0 +1,6 @@
+
+msgid "add_title"
+msgstr "New entity"
+
+msgid "add_label"
+msgstr "Add entity"

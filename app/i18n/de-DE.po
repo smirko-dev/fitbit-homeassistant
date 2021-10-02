@@ -1,0 +1,9 @@
+
+msgid "unavailable"
+msgstr "Nicht verfügbar"
+
+msgid "on"
+msgstr "AN"
+
+msgid "of"
+msgstr "AUS"
