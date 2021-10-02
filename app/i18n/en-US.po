@@ -5,5 +5,5 @@ msgstr "Unavailable"
 msgid "on"
 msgstr "ON"
 
-msgid "of"
+msgid "off"
 msgstr "OFF"

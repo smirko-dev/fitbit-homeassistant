@@ -5,5 +5,5 @@ msgstr "Nicht verfügbar"
 msgid "on"
 msgstr "AN"
 
-msgid "of"
+msgid "off"
 msgstr "AUS"

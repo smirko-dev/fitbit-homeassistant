@@ -5,7 +5,6 @@ import { gettext } from "i18n";
 import { settingsStorage } from "settings";
 import { sendData } from "../common/utils";
 
-let Available = false;
 let URL = ""
 let Token = ""
 
@@ -13,12 +12,10 @@ let Token = ""
 settingsStorage.onchange = function(evt) {
     if (evt.key === "url") {
         let data = JSON.parse(evt.newValue);
-        //console.log("Changed URL " + data["name"]);
         sendData({key: "url", value: data["name"]});
     }
     else if (evt.key === "token") {
         let data = JSON.parse(evt.newValue);
-        //console.log("Changed Token " + data["name"]);
         sendData({key: "token", value: data["name"]});
     }
     else if (evt.key === "entities") {
@@ -51,12 +48,6 @@ function fetchEntity(url, token, entity) {
         if (data["attributes"] && data["attributes"]["friendly_name"]) {
             msgData.name = data["attributes"]["friendly_name"];
         }
-        if (msgData.state === "on") {
-            msgData.state = "ON";
-        }
-        else {
-            msgData.state = "OFF";
-        }
         sendData(msgData);
     })
     .catch(err => console.log('[FETCH]: ' + err));
@@ -76,11 +67,9 @@ function fetchApiStatus(url, token) {
         if (response.status === 200) {
             if (data["message"] === "API running.") {
                 sendData({key: "api", value: "ok"});
-                Available = true;
             }
             else {
                 sendData({key: "api", value: data["message"]});
-                Available = false;
             }
         }
         else {
@@ -89,13 +78,11 @@ function fetchApiStatus(url, token) {
                 value: `ErrorCode ${response.status}`
             });
             sendData(json);
-            Available = false;
         }
     })
     .catch(err => {
         console.log('[FETCH]: ' + err);
         sendData({key: "api", value: gettext("connection_error")});
-        Available = false;
     })
 }
 
@@ -111,7 +98,6 @@ function changeEntity(url, token, entity, state) {
     else if (entity.startsWith("group")) {
         group = "homeassistant";
     }
-    //console.log(`Update ${entity}: ${state} (${json})`);
     fetch(`${url}:8123/api/services/${group}/${state}`, {
         method: "POST",
         body: json,

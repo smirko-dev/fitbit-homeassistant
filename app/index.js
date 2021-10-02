@@ -36,12 +36,11 @@ function setupList(list, data) {
         configureTile: function(tile, info) {
             if (info.type == "item-pool") {
                 tile.getElementById("itemText").text = `${info.name}`;
-                tile.getElementById("itemState").text = `${info.state}`;
+                tile.getElementById("itemState").text = `${gettext(info.state)}`;
                 let touch = tile.getElementById("itemTouch");
                 touch.onclick = evt => {
-                    //console.log(`Touched [${info.index}] ${info.name} = ${info.state}`);
                     let state = "turn_on";
-                    if (info.state === "ON") {
+                    if (info.state === "on") {
                         state = "turn_off";
                     }
                     sendData({key: "change", entity: Entities[info.index].id, state: `${state}`});
@@ -60,7 +59,6 @@ messaging.peerSocket.onmessage = (evt) => {
         settings.entities = [];
     }
     else if (evt.data.key === "add") {
-        //console.log("Added " + evt.data.id + "(" + evt.data.name + ")");
         Entities.push({id: evt.data.id, name: evt.data.name, state: evt.data.state});
         settings.entities.push({name: evt.data.id});
         setupList(EntityList, Entities);
@@ -68,14 +66,7 @@ messaging.peerSocket.onmessage = (evt) => {
     else if (evt.data.key === "change") {
         Entities.forEach((entity, index) => {
             if (entity.id === evt.data.id) {
-                if (evt.data.state === "on") {
-                    Entities[index].state = "ON";
-                    //console.log("Changed " + entity.id + " ON");
-                }
-                else {
-                    Entities[index].state = "OFF";
-                    //console.log("Changed " + entity.id + " OFF");
-                }
+                Entities[index].state = evt.data.state;
                 setupList(EntityList, Entities);
             }
         })

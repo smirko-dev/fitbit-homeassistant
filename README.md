@@ -9,7 +9,25 @@
 
 ## Description
 
-Icon from https://icon-icons.com/de/symbol/home-assistant/138491 (Apache License, Version 2.0)
+This app allows to control [Home Assistant](https://www.home-assistant.io/) entities from a [Fitbit watch](https://www.fitbit.com/global/eu/home).
+
+Supported languages: de-DE, en-US.
+
+Currently only entities are supported which can be turned on and off.
+
+App icon is from https://icon-icons.com/de/symbol/home-assistant/138491 ([Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)).
+
+### Requirements
+
+Homeassistant accessible via https (this is a fitbit restriction).
+
+A homeassistant token, described in [Authentication](https://www.home-assistant.io/docs/authentication/).
+
+### Settings
+
+Both, URL and Token can be setup in the app settings.
+
+The settings also include a list to add entities by their ID (not name!).
 
 ## Screenshots
 
