@@ -74,7 +74,7 @@ messaging.peerSocket.onmessage = (evt) => {
     else if (evt.data.key === "api") {
         if (evt.data.value === "ok") {
             Available = true;
-            AddressText.text = settings.ip;
+            AddressText.text = settings.url;
         }
         else {
             Available = false;
@@ -110,9 +110,10 @@ function loadSettings() {
         return fs.readFileSync(settingsFile, settingsType);
     }
     catch (ex) {
+        console.log("Error loading settings");
         // Default values
         return {
-            ip: "localhost",
+            url: "localhost",
             token: ""
         };
     }
