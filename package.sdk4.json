@@ -4,9 +4,9 @@
     "@fitbit/sdk-cli": "^1.7.3"
   },
   "name": "homeassistant",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "fitbit": {
     "appUUID": "158edb1c-f748-4dbf-a682-b9dae2b74457",
     "appType": "app",

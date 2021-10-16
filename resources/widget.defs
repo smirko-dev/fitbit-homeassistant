@@ -1,0 +1,7 @@
+<svg>
+  <defs>
+    <link rel="stylesheet" href="styles.sdk5.css" />
+    <link rel="import" href="/mnt/sysassets/system_widget.defs" />
+    <link rel="import" href="/mnt/sysassets/widgets/baseview_widget.defs" />
+  </defs>
+</svg>

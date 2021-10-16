@@ -1,8 +1,8 @@
 # Fitbit Homeassistant
 
 ![languages](https://img.shields.io/badge/languages-JavaScript%20|%20CSS-blue)
-![platform](https://img.shields.io/badge/platforms-Ionic%20|%20Versa%20|%20Versa%202%20|%20Versa%20Lite-silver)
-![version](https://img.shields.io/badge/version-%200.2.0-green)
+![platform](https://img.shields.io/badge/platforms-Ionic%20|%20Versa%20|%20Versa%202%20|%20Versa%20Lite%20|%20Versa%203%20|%20Sense-silver)
+![version](https://img.shields.io/badge/version-%200.3.0-green)
 [![](https://img.shields.io/github/license/smirko-dev/fitbit-homeassistant.svg)](https://github.com/smirko-dev/fitbit-homeassistant/blob/master/LICENSE)
 [![FitbitBuild Actions Status](https://github.com/smirko-dev/fitbit-homeassistant/workflows/FitbitBuild/badge.svg)](https://github.com/smirko-dev/fitbit-homeassistant/actions)
 [![CodeQL Actions Status](https://github.com/smirko-dev/fitbit-homeassistant/workflows/CodeQL/badge.svg)](https://github.com/smirko-dev/fitbit-clohomeassistantckface/actions)
@@ -25,7 +25,7 @@ A homeassistant token, described in [Authentication](https://www.home-assistant.
 
 ### Settings
 
-Both, URL and Token can be setup in the app settings.
+Both, URL and Token can be configured in the app settings.
 
 The settings also include a list to add entities by their ID (not name!).
 
@@ -34,6 +34,17 @@ The settings also include a list to add entities by their ID (not name!).
 ![App](screenshots/app.png)
 
 ## How to build
+
+Choose SDK version
+
+| SDK | Device                            |
+|-----|-----------------------------------|
+| 4   | Versa, Versa Lite, Versa 2, Ionic |
+| 5   | Versa 3, Sense                    |
+
+```
+cp package.sdkX.json package.json
+```
 
 ```
 git clone git@github.com:smirko-dev/fitbit-homeassistant.git

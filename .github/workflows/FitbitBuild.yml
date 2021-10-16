@@ -11,8 +11,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build
+  build-sdk4:
+    name: Build SDK4
     runs-on: ubuntu-latest
 
     steps:
@@ -23,6 +23,41 @@ jobs:
 
     - name: Setup node
       uses: actions/setup-node@v1
+
+    - name: Select SDK 4
+      run: cp package.sdk4.json package.json
+
+    - name: Checkout Fitbit SDK
+      run: npm add --also=dev @fitbit/sdk
+
+    - name: Checkout Fitbit SDK-CLI
+      run: npm add --also=dev @fitbit/sdk-cli
+
+    - name: Run Build
+      run: npx fitbit-build --if-present
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      if: ${{ success() }}
+      with:
+        path: build/app.fba
+        if-no-files-found: error
+
+  build-sdk5:
+    name: Build SDK5
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout branch
+      uses: actions/checkout@v2
+      with:
+          lfs: true
+
+    - name: Setup node
+      uses: actions/setup-node@v1
+
+    - name: Select SDK 5
+      run: cp package.sdk5.json package.json
 
     - name: Checkout Fitbit SDK
       run: npm add --also=dev @fitbit/sdk

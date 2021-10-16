@@ -1,0 +1,33 @@
+<svg class="background"> 
+  <defs>
+    <symbol id="tile-item" href="#tile-list-item" focusable="false"
+            pointer-events="none" system-events="all" display="none">
+      <text id="itemText" x="2%" width="80%" class="itemText" />
+      <text id="itemState" x="80%" width="18%" class="itemState" />
+      <rect id="tile-divider-bottom" class="tile-divider-bottom" />
+      <rect id="itemTouch" pointer-events="all" x="0" y="0" width="100%"
+            height="100%-2" opacity="0" />
+    </symbol>
+  </defs>
+
+  <text id="titleText" class="titleText">Home Assistant</text>
+  <text id="addressText" class="addressText">ip address</text>
+
+  <use id="entityList" y="20%" height="80%" href="#tile-list">
+    <var id="virtual" value="1" />
+    <var id="separator-height-bottom" value="2" />
+
+    <use id="item-pool" href="#tile-list-pool">
+      <use id="item-pool[0]" href="#tile-item" class="tile-list-item" />
+      <use id="item-pool[1]" href="#tile-item" class="tile-list-item" />
+      <use id="item-pool[2]" href="#tile-item" class="tile-list-item" />
+      <use id="item-pool[3]" href="#tile-item" class="tile-list-item" />
+      <use id="item-pool[4]" href="#tile-item" class="tile-list-item" />
+      <use id="item-pool[5]" href="#tile-item" class="tile-list-item" />
+      <use id="item-pool[6]" href="#tile-item" class="tile-list-item" />
+      <use id="item-pool[7]" href="#tile-item" class="tile-list-item" />
+      <use id="item-pool[8]" href="#tile-item" class="tile-list-item" />
+      <use id="item-pool[9]" href="#tile-item" class="tile-list-item" />
+    </use>
+  </use>
+</svg>
