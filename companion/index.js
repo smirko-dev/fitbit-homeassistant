@@ -153,9 +153,11 @@ messaging.peerSocket.onmessage = evt => {
         }
     }
     else if (evt.data.key === "entities") {
-        sendData({key: "clear"});
-        evt.data.value.forEach(element => {
-            fetchEntity(URL, Token, element["name"]);
-        })
+        if (evt.data.value) {
+            sendData({key: "clear"});
+            evt.data.value.forEach(element => {
+                fetchEntity(URL, Token, element["name"]);
+            })
+        }
     }
 };
