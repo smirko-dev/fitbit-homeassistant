@@ -25,9 +25,11 @@ A homeassistant token, described in [Authentication](https://www.home-assistant.
 
 ### Settings
 
-Both, URL and Token can be configured in the app settings.
+- URL (text)
+- Token (text)
+- Entities (list of texts)
 
-The settings also include a list to add entities by their ID (not name!).
+*Entities should be added by ID and not by name!*
 
 ## Screenshots
 
