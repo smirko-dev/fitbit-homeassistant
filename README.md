@@ -19,9 +19,9 @@ App icon is from https://icon-icons.com/de/symbol/home-assistant/138491 ([Apache
 
 ### Requirements
 
-Homeassistant accessible via HTTPS. The [Fetch API](https://dev.fitbit.com/build/reference/companion-api/fetch/) doesn't support HTTP!.
-
-A homeassistant token, described in [Authentication](https://www.home-assistant.io/docs/authentication/).
+- Homeassistant needs to be accessible via HTTPS, since the [Fetch API](https://dev.fitbit.com/build/reference/companion-api/fetch/) doesn't support HTTP!.
+- The [RESTful API](https://www.home-assistant.io/integrations/api/) needs to be enabled in homeassistent.
+- A homeassistant token, described in [Authentication](https://www.home-assistant.io/docs/authentication/).
 
 ### Settings
 
