@@ -6,7 +6,7 @@
 ![version](https://img.shields.io/badge/version-%200.3.0-green)
 [![](https://img.shields.io/badge/license-MIT-green)](https://github.com/smirko-dev/fitbit-homeassistant/blob/main/LICENSE)
 [![FitbitBuild Actions Status](https://github.com/smirko-dev/fitbit-homeassistant/workflows/FitbitBuild/badge.svg)](https://github.com/smirko-dev/fitbit-homeassistant/actions)
-[![CodeQL Actions Status](https://github.com/smirko-dev/fitbit-homeassistant/workflows/CodeQL/badge.svg)](https://github.com/smirko-dev/fitbit-clohomeassistantckface/actions)
+[![CodeQL Actions Status](https://github.com/smirko-dev/fitbit-homeassistant/workflows/CodeQL/badge.svg)](https://github.com/smirko-dev/fitbit-homeassistant/actions)
 
 ## Description
 
