@@ -20,14 +20,14 @@ App icon is from https://icon-icons.com/de/symbol/home-assistant/138491 ([Apache
 
 ### Requirements
 
-- Homeassistant needs to be accessible via HTTPS, since the [Fetch API](https://dev.fitbit.com/build/reference/companion-api/fetch/) doesn't support HTTP!.
-- The [RESTful API](https://www.home-assistant.io/integrations/api/) needs to be enabled in homeassistent.
-- A homeassistant token, described in [Authentication](https://www.home-assistant.io/docs/authentication/).
+- Home Assistant needs to be accessible via HTTPS, since the [Fetch API](https://dev.fitbit.com/build/reference/companion-api/fetch/) doesn't support HTTP!.
+- The [RESTful API](https://www.home-assistant.io/integrations/api/) needs to be enabled in Home Assistant.
+- A Home Assistant Long-Lived Access Token, described in [Authentication](https://www.home-assistant.io/docs/authentication/).
 
 ### Settings
 
-- URL (text)
-- Token (text)
+- Home Assistant URL (text)
+- Long-Lived Access Token (text)
 - Entities (list of texts)
 
 *Entities should be added by ID and not by name!*
