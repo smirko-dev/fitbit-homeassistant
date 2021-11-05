@@ -1,7 +1,7 @@
 # Fitbit Homeassistant
 
 [![](https://img.shields.io/badge/Fitbit%20App%20Gallery-%2300B0B9?style=flat&logo=fitbit&logoColor=white)](https://gallery.fitbit.com/details/158edb1c-f748-4dbf-a682-b9dae2b74457)
-![rating](https://img.shields.io/badge/rating-%205.0-blue)
+![rating](https://img.shields.io/badge/rating-%203.0-blue)
 ![languages](https://img.shields.io/badge/languages-JavaScript%20|%20CSS-blue)
 ![platform](https://img.shields.io/badge/platforms-Ionic%20|%20Versa%20|%20Versa%202%20|%20Versa%20Lite%20|%20Versa%203%20|%20Sense-silver)
 [![version](https://img.shields.io/badge/version-%200.3.0-blue)](https://github.com/smirko-dev/fitbit-homeassistant/blob/main/CHANGELOG.md)
