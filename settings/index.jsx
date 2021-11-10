@@ -8,6 +8,7 @@ function settingsFunc(props) {
     <Page>
         <Section>
             <TextInput label="URL" settingsKey="url" placeholder="https://127.0.0.1" />
+            <TextInput label="Port" settingsKey="port" placeholder="8123" />
             <TextInput label="Token" settingsKey="token" />
         </Section>
         <Section>
