@@ -74,7 +74,7 @@ messaging.peerSocket.onmessage = (evt) => {
     else if (evt.data.key === "api") {
         if (evt.data.value === "ok") {
             Available = true;
-            AddressText.text = settings.url;
+            AddressText.text = settings.url + ':' + settings.port;
         }
         else {
             Available = false;
@@ -84,6 +84,10 @@ messaging.peerSocket.onmessage = (evt) => {
     else if (evt.data.key === "url") {
         settings.url = evt.data.value;
         sendData({key: "url", value: settings.url});
+    }
+    else if (evt.data.key === "port") {
+        settings.port = evt.data.value;
+        sendData({key: "port", value: settings.port});
     }
     else if (evt.data.key === "token") {
         settings.token = evt.data.value;
@@ -95,6 +99,7 @@ messaging.peerSocket.onmessage = (evt) => {
 messaging.peerSocket.onopen = () => {
     console.log("Socket open");
     sendData({key: "url", value: settings.url});
+    sendData({key: "port", value: settings.port});
     sendData({key: "token", value: settings.token});
     sendData({key: "entities", value: settings.entities});
 };
@@ -114,6 +119,7 @@ function loadSettings() {
         // Default values
         return {
             url: "localhost",
+            port: "8123",
             token: ""
         };
     }
