@@ -4,7 +4,7 @@
     "@fitbit/sdk-cli": "^1.7.3"
   },
   "name": "homeassistant",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "license": "MIT",
   "fitbit": {
