@@ -27,6 +27,7 @@ App icon is from https://icon-icons.com/de/symbol/home-assistant/138491 ([Apache
 ### Settings
 
 - Home Assistant URL (text)
+- Port number (text)
 - Long-Lived Access Token (text)
 - List of up to 10 entities (text)
 
