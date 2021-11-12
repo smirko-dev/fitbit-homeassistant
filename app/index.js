@@ -23,6 +23,7 @@ me.onunload = saveSettings;
 // List of {id: "", name: "", state: ""}
 const Entities = [];
 
+// Update list data
 function setupList(list, data) {
     list.delegate = {
         getTileInfo: function(index) {
