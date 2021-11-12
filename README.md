@@ -3,7 +3,7 @@
 [![](https://img.shields.io/badge/Fitbit%20App%20Gallery-%2300B0B9?style=flat&logo=fitbit&logoColor=white)](https://gallery.fitbit.com/details/158edb1c-f748-4dbf-a682-b9dae2b74457)
 ![languages](https://img.shields.io/badge/languages-JavaScript%20|%20CSS-blue)
 ![platform](https://img.shields.io/badge/platforms-Ionic%20|%20Versa%20|%20Versa%202%20|%20Versa%20Lite%20|%20Versa%203%20|%20Sense-silver)
-[![version](https://img.shields.io/badge/version-%200.3.0-blue)](https://github.com/smirko-dev/fitbit-homeassistant/blob/main/CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-%200.4.0-blue)](https://github.com/smirko-dev/fitbit-homeassistant/blob/main/CHANGELOG.md)
 [![](https://img.shields.io/badge/license-MIT-blue)](https://github.com/smirko-dev/fitbit-homeassistant/blob/main/LICENSE)
 [![FitbitBuild Actions Status](https://github.com/smirko-dev/fitbit-homeassistant/workflows/FitbitBuild/badge.svg)](https://github.com/smirko-dev/fitbit-homeassistant/actions)
 [![CodeQL Actions Status](https://github.com/smirko-dev/fitbit-homeassistant/workflows/CodeQL/badge.svg)](https://github.com/smirko-dev/fitbit-homeassistant/actions)
@@ -28,7 +28,7 @@ App icon is from https://icon-icons.com/de/symbol/home-assistant/138491 ([Apache
 
 - Home Assistant URL (text)
 - Long-Lived Access Token (text)
-- Entities (list of texts)
+- List of up to 10 entities (text)
 
 *Entities should be added by ID and not by name!*
 

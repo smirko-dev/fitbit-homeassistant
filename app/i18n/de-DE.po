@@ -1,6 +1,6 @@
 
 msgid "unavailable"
-msgstr "Nicht verfügbar"
+msgstr "N/A"
 
 msgid "on"
 msgstr "AN"
