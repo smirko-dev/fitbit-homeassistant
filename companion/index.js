@@ -108,6 +108,10 @@ function changeEntity(url, token, entity, state) {
     else if (entity.startsWith("group")) {
         group = "homeassistant";
     }
+    else if (entity.startsWith("script")) {
+        group = "script";
+        state = "turn_on";
+    }
     fetch(`${url}/api/services/${group}/${state}`, {
         method: "POST",
         body: json,
