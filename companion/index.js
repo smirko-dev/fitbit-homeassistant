@@ -112,6 +112,10 @@ function changeEntity(url, token, entity, state) {
         group = "script";
         state = "turn_on";
     }
+    else if (entity.startsWith("automation")) {
+        group = "automation";
+        state = "trigger";
+    }
     fetch(`${url}/api/services/${group}/${state}`, {
         method: "POST",
         body: json,

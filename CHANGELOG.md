@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version 0.5
 
 ### Added
-- Entities of type script
+- Script entities
+- Automation entities
 
 ## Version 0.4
 
