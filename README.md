@@ -14,7 +14,11 @@ This app allows to control [Home Assistant](https://www.home-assistant.io/) enti
 
 Supported languages: de-DE, en-US.
 
-Currently only entities are supported which can be turned on and off.
+Supported entity types:
+- switch
+- light
+- group
+- script
 
 App icon is from https://icon-icons.com/de/symbol/home-assistant/138491 ([Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)).
 
