@@ -50,6 +50,7 @@ Choose SDK version
 |-----|-----------------------------------|
 | 4   | Versa, Versa Lite, Versa 2, Ionic |
 | 5   | Versa 3, Sense                    |
+| 6   | Versa 3, Sense                    |
 
 ```
 cp package.sdkX.json package.json
