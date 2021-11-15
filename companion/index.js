@@ -6,7 +6,7 @@ import { settingsStorage } from "settings";
 import { sendData } from "../common/utils";
 
 let URL = ""
-let Port = ""
+let Port = "8123"
 let Token = ""
 
 // Return address as URL + Port
