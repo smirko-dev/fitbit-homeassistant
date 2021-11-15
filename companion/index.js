@@ -58,6 +58,12 @@ function fetchEntity(url, token, entity) {
         if (data["attributes"] && data["attributes"]["friendly_name"]) {
             msgData.name = data["attributes"]["friendly_name"];
         }
+        if (data["entity_id"].startsWith("script")) {
+            msgData.state = 'exe'
+        }
+        else if (data["entity_id"].startsWith("automation")) {
+            msgData.state = 'exe'
+        }
         sendData(msgData);
     })
     .catch(err => console.log('[FETCH]: ' + err));
@@ -135,7 +141,9 @@ function changeEntity(url, token, entity, state) {
                     id: element["entity_id"],
                     state: element["state"],
                 };
-                sendData(msgData);
+                if (!element["entity_id"].startsWith("script") && !element["entity_id"].startsWith("automation")) {
+                    sendData(msgData);
+                }
             }
         })
     })
