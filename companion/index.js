@@ -45,10 +45,8 @@ function fetchEntity(url, token, entity) {
             "content-type": "application/json",
         }
     })
-    .then(function(res) {
-        return res.json();
-    })
-    .then(function(data) {
+    .then(async(response) => {
+        let data = await response.json();
         let msgData = {
             key: "add",
             id: data["entity_id"],
@@ -122,6 +120,7 @@ function changeEntity(url, token, entity, state) {
         group = "automation";
         state = "trigger";
     }
+    //DEBUG console.log(`SENT ${url}/api/services/${group}/${state} FOR ${entity}`);
     fetch(`${url}/api/services/${group}/${state}`, {
         method: "POST",
         body: json,
@@ -130,10 +129,9 @@ function changeEntity(url, token, entity, state) {
             "content-type": "application/json",
         }
     })
-    .then(function(res) {
-        return res.json();
-    })
-    .then(function(data) {
+    .then(async(response) => {
+        let data = await response.json();
+        //DEBUG console.log('RECEIVED ' + JSON.stringify(data));
         data.forEach(element => {
             if (element["entity_id"] === entity) {
                 let msgData = {
