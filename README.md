@@ -64,3 +64,7 @@ npm add --also=dev @fitbit/sdk-cli
 npx fitbit-build generate-appid
 npx fitbit-build
 ```
+
+## Known issues
+
+- Doesn't work with [Nabu Casa](https://www.nabucasa.com/)
