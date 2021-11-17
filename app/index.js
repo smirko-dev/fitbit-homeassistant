@@ -94,6 +94,10 @@ messaging.peerSocket.onmessage = (evt) => {
         settings.token = evt.data.value;
         sendData({key: "token", value: settings.token});
     }
+    else if (evt.data.key === "force") {
+        settings.force = evt.data.value;
+        sendData({key: "force", value: settings.force});
+    }
 }
 
 // Message socket opens
@@ -103,6 +107,7 @@ messaging.peerSocket.onopen = () => {
     sendData({key: "port", value: settings.port});
     sendData({key: "token", value: settings.token});
     sendData({key: "entities", value: settings.entities});
+    sendData({key: "force", value: settings.force});
 };
   
 // Message socket closes
@@ -121,7 +126,8 @@ function loadSettings() {
         return {
             url: "localhost",
             port: "8123",
-            token: ""
+            token: "",
+            force: false
         };
     }
 }
