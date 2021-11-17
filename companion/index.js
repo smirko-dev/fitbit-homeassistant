@@ -3,11 +3,12 @@ import * as messaging from "messaging";
 import { gettext } from "i18n";
 
 import { settingsStorage } from "settings";
-import { sendData } from "../common/utils";
+import { sendData, isEmpty } from "../common/utils";
 
-let URL = ""
-let Port = "8123"
-let Token = ""
+let URL = "";
+let Port = "8123";
+let Token = "";
+let Force = "false";
 
 // Return address as URL + Port
 function address() {
@@ -33,6 +34,9 @@ settingsStorage.onchange = function(evt) {
         JSON.parse(evt.newValue).forEach(element => {
             fetchEntity(address(), Token, element["name"]);
         })
+    }
+    else if (evt.key === "force") {
+        Force = JSON.parse(evt.newValue);
     }
 }
 
@@ -132,18 +136,30 @@ function changeEntity(url, token, entity, state) {
     .then(async(response) => {
         let data = await response.json();
         //DEBUG console.log('RECEIVED ' + JSON.stringify(data));
-        data.forEach(element => {
-            if (element["entity_id"] === entity) {
-                let msgData = {
-                    key: "change",
-                    id: element["entity_id"],
-                    state: element["state"],
-                };
-                if (!element["entity_id"].startsWith("script") && !element["entity_id"].startsWith("automation")) {
-                    sendData(msgData);
+        if (!isEmpty(data)) {
+            data.forEach(element => {
+                if (element["entity_id"] === entity) {
+                    let msgData = {
+                        key: "change",
+                        id: element["entity_id"],
+                        state: element["state"],
+                    };
+                    if (!element["entity_id"].startsWith("script") && !element["entity_id"].startsWith("automation")) {
+                        sendData(msgData);
+                    }
                 }
+            })
+        }
+        else if (Force === "true") {
+            let msgData = {
+                key: "change",
+                id: entity,
+                state: state === 'turn_on' ? 'on' : 'off'
+            };
+            if (!entity.startsWith("script") && !entity.startsWith("automation")) {
+                sendData(msgData);
             }
-        })
+        }
     })
     .catch(err => console.log('[FETCH]: ' + err));
 }

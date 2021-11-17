@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Script entities
 - Automation entities
 - Support for SDK6
+- Force status settings
 
 ## Version 0.4
 

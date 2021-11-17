@@ -35,8 +35,11 @@ App icon is from https://icon-icons.com/de/symbol/home-assistant/138491 ([Apache
 - Port number (text)
 - Long-Lived Access Token (text)
 - List of up to 10 entities (text)
+- Force status (toggle)
 
 *Entities should be added by ID and not by name!*
+
+*Force status schould be used in case of HA responds with an empty JSON object on POST messages!*
 
 ## Screenshots
 
