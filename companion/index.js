@@ -8,7 +8,7 @@ import { sendData, isEmpty } from "../common/utils";
 let URL = "";
 let Port = "8123";
 let Token = "";
-let Force = "false";
+let Force = false;
 
 // Return address as URL + Port
 function address() {
@@ -36,7 +36,8 @@ settingsStorage.onchange = function(evt) {
         })
     }
     else if (evt.key === "force") {
-        Force = JSON.parse(evt.newValue);
+        let data = JSON.parse(evt.newValue);
+        sendData({key: "force", value: data});
     }
 }
 
@@ -135,8 +136,19 @@ function changeEntity(url, token, entity, state) {
     })
     .then(async(response) => {
         let data = await response.json();
-        //DEBUG console.log('RECEIVED ' + JSON.stringify(data));
-        if (!isEmpty(data)) {
+        if (Force) {
+            let msgData = {
+                key: "change",
+                id: entity,
+                state: state === 'turn_on' ? 'on' : 'off'
+            };
+            if (!entity.startsWith("script") && !entity.startsWith("automation")) {
+                //DEBUG console.log('FORCE ' + JSON.stringify(msgData));
+                sendData(msgData);
+            }
+        }
+        else if (!isEmpty(data)) {
+            //DEBUG console.log('RECEIVED ' + JSON.stringify(data));
             data.forEach(element => {
                 if (element["entity_id"] === entity) {
                     let msgData = {
@@ -149,16 +161,6 @@ function changeEntity(url, token, entity, state) {
                     }
                 }
             })
-        }
-        else if (Force === "true") {
-            let msgData = {
-                key: "change",
-                id: entity,
-                state: state === 'turn_on' ? 'on' : 'off'
-            };
-            if (!entity.startsWith("script") && !entity.startsWith("automation")) {
-                sendData(msgData);
-            }
         }
     })
     .catch(err => console.log('[FETCH]: ' + err));
@@ -205,5 +207,8 @@ messaging.peerSocket.onmessage = evt => {
                 fetchEntity(address(), Token, element["name"]);
             })
         }
+    }
+    else if (evt.data.key === "force") {
+        Force = evt.data.value;
     }
 };
