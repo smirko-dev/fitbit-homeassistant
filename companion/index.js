@@ -136,6 +136,7 @@ function changeEntity(url, token, entity, state) {
     })
     .then(async(response) => {
         let data = await response.json();
+        //DEBUG console.log('RECEIVED ' + JSON.stringify(data));
         if (Force) {
             let msgData = {
                 key: "change",
@@ -143,12 +144,11 @@ function changeEntity(url, token, entity, state) {
                 state: state === 'turn_on' ? 'on' : 'off'
             };
             if (!entity.startsWith("script") && !entity.startsWith("automation")) {
-                //DEBUG console.log('FORCE ' + JSON.stringify(msgData));
+                //DEBUG console.log('FORCED ' + JSON.stringify(msgData));
                 sendData(msgData);
             }
         }
         else if (!isEmpty(data)) {
-            //DEBUG console.log('RECEIVED ' + JSON.stringify(data));
             data.forEach(element => {
                 if (element["entity_id"] === entity) {
                     let msgData = {
