@@ -4,3 +4,6 @@ msgstr "Nicht verfügbar"
 
 msgid "connection_error"
 msgstr "Verbindungsfehler"
+
+msgid "response_error"
+msgstr "Antwortfehler"

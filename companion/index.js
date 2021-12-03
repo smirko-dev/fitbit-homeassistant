@@ -51,25 +51,30 @@ function fetchEntity(url, token, entity) {
         }
     })
     .then(async(response) => {
-        let data = await response.json();
-        let msgData = {
-            key: "add",
-            id: data["entity_id"],
-            name: data["entity_id"],
-            state: data["state"],
-        };
-        if (data["attributes"] && data["attributes"]["friendly_name"]) {
-            msgData.name = data["attributes"]["friendly_name"];
+        if (response.ok) {
+            let data = await response.json();
+            let msgData = {
+                key: "add",
+                id: data["entity_id"],
+                name: data["entity_id"],
+                state: data["state"],
+            };
+            if (data["attributes"] && data["attributes"]["friendly_name"]) {
+                msgData.name = data["attributes"]["friendly_name"];
+            }
+            if (data["entity_id"].startsWith("script")) {
+                msgData.state = 'exe'
+            }
+            else if (data["entity_id"].startsWith("automation")) {
+                msgData.state = 'exe'
+            }
+            sendData(msgData);
         }
-        if (data["entity_id"].startsWith("script")) {
-            msgData.state = 'exe'
+        else {
+            console.log('[fetchEntity] Response error');
         }
-        else if (data["entity_id"].startsWith("automation")) {
-            msgData.state = 'exe'
-        }
-        sendData(msgData);
     })
-    .catch(err => console.log('[FETCH]: ' + err));
+    .catch(err => console.log('[fetchEntity]: ' + err));
 }
 
 // Get Availability of HA
@@ -82,25 +87,30 @@ function fetchApiStatus(url, token) {
         }
     })
     .then(async(response) => {
-        let data = await response.json();
-        if (response.status === 200) {
-            if (data["message"] === "API running.") {
-                sendData({key: "api", value: "ok"});
+        if (response.ok) {
+            let data = await response.json();
+            if (response.status === 200) {
+                if (data["message"] === "API running.") {
+                    sendData({key: "api", value: "ok"});
+                }
+                else {
+                    sendData({key: "api", value: data["message"]});
+                }
             }
             else {
-                sendData({key: "api", value: data["message"]});
+                const json = JSON.stringify({
+                    key: "api",
+                    value: `ErrorCode ${response.status}`
+                });
+                sendData(json);
             }
         }
         else {
-            const json = JSON.stringify({
-                key: "api",
-                value: `ErrorCode ${response.status}`
-            });
-            sendData(json);
+            sendData({key: "api", value: gettext("response_error")});
         }
     })
     .catch(err => {
-        console.log('[FETCH]: ' + err);
+        console.log('[fetchApiStatus]: ' + err);
         sendData({key: "api", value: gettext("connection_error")});
     })
 }
@@ -135,35 +145,40 @@ function changeEntity(url, token, entity, state) {
         }
     })
     .then(async(response) => {
-        let data = await response.json();
-        //DEBUG console.log('RECEIVED ' + JSON.stringify(data));
-        if (Force) {
-            let msgData = {
-                key: "change",
-                id: entity,
-                state: state === 'turn_on' ? 'on' : 'off'
-            };
-            if (!entity.startsWith("script") && !entity.startsWith("automation")) {
-                //DEBUG console.log('FORCED ' + JSON.stringify(msgData));
-                sendData(msgData);
+        if (response.ok) {
+            let data = await response.json();
+            //DEBUG console.log('RECEIVED ' + JSON.stringify(data));
+            if (Force) {
+                let msgData = {
+                    key: "change",
+                    id: entity,
+                    state: state === 'turn_on' ? 'on' : 'off'
+                };
+                if (!entity.startsWith("script") && !entity.startsWith("automation")) {
+                    //DEBUG console.log('FORCED ' + JSON.stringify(msgData));
+                    sendData(msgData);
+                }
+            }
+            else if (!isEmpty(data)) {
+                data.forEach(element => {
+                    if (element["entity_id"] === entity) {
+                        let msgData = {
+                            key: "change",
+                            id: element["entity_id"],
+                            state: element["state"],
+                        };
+                        if (!element["entity_id"].startsWith("script") && !element["entity_id"].startsWith("automation")) {
+                            sendData(msgData);
+                        }
+                    }
+                })
             }
         }
-        else if (!isEmpty(data)) {
-            data.forEach(element => {
-                if (element["entity_id"] === entity) {
-                    let msgData = {
-                        key: "change",
-                        id: element["entity_id"],
-                        state: element["state"],
-                    };
-                    if (!element["entity_id"].startsWith("script") && !element["entity_id"].startsWith("automation")) {
-                        sendData(msgData);
-                    }
-                }
-            })
+        else {
+            console.log('[changeEntity] Response error');
         }
     })
-    .catch(err => console.log('[FETCH]: ' + err));
+    .catch(err => console.log('[changeEntity]: ' + err));
 }
 
 // Message socket opens
