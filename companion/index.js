@@ -71,7 +71,7 @@ function fetchEntity(url, token, entity) {
             sendData(msgData);
         }
         else {
-            console.log('[fetchEntity] Response error');
+            console.log(`[fetchEntity] ErrorCode ${response.status}`);
         }
     })
     .catch(err => console.log('[fetchEntity]: ' + err));
@@ -89,24 +89,19 @@ function fetchApiStatus(url, token) {
     .then(async(response) => {
         if (response.ok) {
             let data = await response.json();
-            if (response.status === 200) {
-                if (data["message"] === "API running.") {
-                    sendData({key: "api", value: "ok"});
-                }
-                else {
-                    sendData({key: "api", value: data["message"]});
-                }
+            if (data["message"] === "API running.") {
+                sendData({key: "api", value: "ok"});
             }
             else {
-                const json = JSON.stringify({
-                    key: "api",
-                    value: `ErrorCode ${response.status}`
-                });
-                sendData(json);
+                sendData({key: "api", value: data["message"]});
             }
         }
         else {
-            sendData({key: "api", value: gettext("response_error")});
+            const json = JSON.stringify({
+                key: "api",
+                value: `ErrorCode ${response.status}`
+            });
+            sendData(json);
         }
     })
     .catch(err => {
@@ -175,7 +170,7 @@ function changeEntity(url, token, entity, state) {
             }
         }
         else {
-            console.log('[changeEntity] Response error');
+            console.log(`[changeEntity] ErrorCode ${response.status}`);
         }
     })
     .catch(err => console.log('[changeEntity]: ' + err));
