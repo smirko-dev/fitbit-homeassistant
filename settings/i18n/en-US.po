@@ -4,3 +4,6 @@ msgstr "New entity"
 
 msgid "add_label"
 msgstr "Add entity"
+
+msgid "force_status"
+msgstr "Force status"

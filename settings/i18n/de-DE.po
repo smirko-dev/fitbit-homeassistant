@@ -4,3 +4,6 @@ msgstr "Neues Objekt"
 
 msgid "add_label"
 msgstr "Objekt hinzufügen"
+
+msgid "force_status"
+msgstr "Status erzwingen"

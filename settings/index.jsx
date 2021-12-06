@@ -2,8 +2,6 @@
 import { gettext } from "i18n";
 
 function settingsFunc(props) {
-  let add_title = gettext("add_title");
-  let add_label = gettext("add_label");
   return (  
     <Page>
         <Section>
@@ -14,12 +12,15 @@ function settingsFunc(props) {
         <Section>
             <AdditiveList title="Entities" settingsKey="entities" description="List of entities" maxItems="30" addAction={
               <TextInput
-                title={`${add_title}`}
-                label={`${add_label}`}
+                title={`${gettext("add_title")}`}
+                label={`${gettext("add_label")}`}
                 placeholder="Entity"
                 action="Add Item"
               />
             }/>
+        </Section>
+        <Section>
+            <Toggle label={`${gettext("force_status")}`} settingsKey="force" />
         </Section>
     </Page>
   )

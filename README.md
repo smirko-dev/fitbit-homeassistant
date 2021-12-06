@@ -3,7 +3,7 @@
 [![](https://img.shields.io/badge/Fitbit%20App%20Gallery-%2300B0B9?style=flat&logo=fitbit&logoColor=white)](https://gallery.fitbit.com/details/158edb1c-f748-4dbf-a682-b9dae2b74457)
 ![languages](https://img.shields.io/badge/languages-JavaScript%20|%20CSS-blue)
 ![platform](https://img.shields.io/badge/platforms-Ionic%20|%20Versa%20|%20Versa%202%20|%20Versa%20Lite%20|%20Versa%203%20|%20Sense-silver)
-[![version](https://img.shields.io/badge/version-%200.4-blue)](https://github.com/smirko-dev/fitbit-homeassistant/blob/main/CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-%200.5-blue)](https://github.com/smirko-dev/fitbit-homeassistant/blob/main/CHANGELOG.md)
 [![](https://img.shields.io/badge/license-MIT-blue)](https://github.com/smirko-dev/fitbit-homeassistant/blob/main/LICENSE)
 [![FitbitBuild Actions Status](https://github.com/smirko-dev/fitbit-homeassistant/workflows/FitbitBuild/badge.svg)](https://github.com/smirko-dev/fitbit-homeassistant/actions)
 [![CodeQL Actions Status](https://github.com/smirko-dev/fitbit-homeassistant/workflows/CodeQL/badge.svg)](https://github.com/smirko-dev/fitbit-homeassistant/actions)
@@ -14,7 +14,12 @@ This app allows to control [Home Assistant](https://www.home-assistant.io/) enti
 
 Supported languages: de-DE, en-US.
 
-Currently only entities are supported which can be turned on and off.
+Supported entity types:
+- switch (on/off)
+- light (on/off)
+- group (on/off)
+- automation (execute)
+- script (execute)
 
 App icon is from https://icon-icons.com/de/symbol/home-assistant/138491 ([Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)).
 
@@ -30,8 +35,11 @@ App icon is from https://icon-icons.com/de/symbol/home-assistant/138491 ([Apache
 - Port number (text)
 - Long-Lived Access Token (text)
 - List of up to 10 entities (text)
+- Force status (toggle)
 
 *Entities should be added by ID and not by name!*
+
+*Force status schould be used in case of HA responds with an empty JSON object on POST messages!*
 
 ## Screenshots
 
@@ -45,6 +53,7 @@ Choose SDK version
 |-----|-----------------------------------|
 | 4   | Versa, Versa Lite, Versa 2, Ionic |
 | 5   | Versa 3, Sense                    |
+| 6   | Versa 3, Sense                    |
 
 ```
 cp package.sdkX.json package.json
@@ -58,3 +67,7 @@ npm add --also=dev @fitbit/sdk-cli
 npx fitbit-build generate-appid
 npx fitbit-build
 ```
+
+## Known issues
+
+- Doesn't work with [Nabu Casa](https://www.nabucasa.com/)

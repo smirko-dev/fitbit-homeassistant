@@ -3,11 +3,12 @@ import * as messaging from "messaging";
 import { gettext } from "i18n";
 
 import { settingsStorage } from "settings";
-import { sendData } from "../common/utils";
+import { sendData, isEmpty } from "../common/utils";
 
-let URL = ""
-let Port = ""
-let Token = ""
+let URL = "";
+let Port = "8123";
+let Token = "";
+let Force = false;
 
 // Return address as URL + Port
 function address() {
@@ -34,6 +35,10 @@ settingsStorage.onchange = function(evt) {
             fetchEntity(address(), Token, element["name"]);
         })
     }
+    else if (evt.key === "force") {
+        let data = JSON.parse(evt.newValue);
+        sendData({key: "force", value: data});
+    }
 }
 
 // Get entity info
@@ -45,10 +50,8 @@ function fetchEntity(url, token, entity) {
             "content-type": "application/json",
         }
     })
-    .then(function(res) {
-        return res.json();
-    })
-    .then(function(data) {
+    .then(async(response) => {
+        let data = await response.json();
         let msgData = {
             key: "add",
             id: data["entity_id"],
@@ -57,6 +60,12 @@ function fetchEntity(url, token, entity) {
         };
         if (data["attributes"] && data["attributes"]["friendly_name"]) {
             msgData.name = data["attributes"]["friendly_name"];
+        }
+        if (data["entity_id"].startsWith("script")) {
+            msgData.state = 'exe'
+        }
+        else if (data["entity_id"].startsWith("automation")) {
+            msgData.state = 'exe'
         }
         sendData(msgData);
     })
@@ -108,6 +117,15 @@ function changeEntity(url, token, entity, state) {
     else if (entity.startsWith("group")) {
         group = "homeassistant";
     }
+    else if (entity.startsWith("script")) {
+        group = "script";
+        state = "turn_on";
+    }
+    else if (entity.startsWith("automation")) {
+        group = "automation";
+        state = "trigger";
+    }
+    //DEBUG console.log(`SENT ${url}/api/services/${group}/${state} FOR ${entity}`);
     fetch(`${url}/api/services/${group}/${state}`, {
         method: "POST",
         body: json,
@@ -116,20 +134,34 @@ function changeEntity(url, token, entity, state) {
             "content-type": "application/json",
         }
     })
-    .then(function(res) {
-        return res.json();
-    })
-    .then(function(data) {
-        data.forEach(element => {
-            if (element["entity_id"] === entity) {
-                let msgData = {
-                    key: "change",
-                    id: element["entity_id"],
-                    state: element["state"],
-                };
+    .then(async(response) => {
+        let data = await response.json();
+        //DEBUG console.log('RECEIVED ' + JSON.stringify(data));
+        if (Force) {
+            let msgData = {
+                key: "change",
+                id: entity,
+                state: state === 'turn_on' ? 'on' : 'off'
+            };
+            if (!entity.startsWith("script") && !entity.startsWith("automation")) {
+                //DEBUG console.log('FORCED ' + JSON.stringify(msgData));
                 sendData(msgData);
             }
-        })
+        }
+        else if (!isEmpty(data)) {
+            data.forEach(element => {
+                if (element["entity_id"] === entity) {
+                    let msgData = {
+                        key: "change",
+                        id: element["entity_id"],
+                        state: element["state"],
+                    };
+                    if (!element["entity_id"].startsWith("script") && !element["entity_id"].startsWith("automation")) {
+                        sendData(msgData);
+                    }
+                }
+            })
+        }
     })
     .catch(err => console.log('[FETCH]: ' + err));
 }
@@ -175,5 +207,8 @@ messaging.peerSocket.onmessage = evt => {
                 fetchEntity(address(), Token, element["name"]);
             })
         }
+    }
+    else if (evt.data.key === "force") {
+        Force = evt.data.value;
     }
 };

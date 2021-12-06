@@ -7,3 +7,6 @@ msgstr "ON"
 
 msgid "off"
 msgstr "OFF"
+
+msgid "exe"
+msgstr "EXE"
