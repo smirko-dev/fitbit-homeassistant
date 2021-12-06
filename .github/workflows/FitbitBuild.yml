@@ -36,11 +36,14 @@ jobs:
     - name: Run Build
       run: npx fitbit-build --if-present
 
+    - name: Copy App
+      run: cp build/app.fba build/app.sdk4.fba
+
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       if: ${{ success() }}
       with:
-        path: build/app.fba
+        path: build/app.sdk4.fba
         if-no-files-found: error
 
   build-sdk5:
@@ -68,11 +71,14 @@ jobs:
     - name: Run Build
       run: npx fitbit-build --if-present
 
+    - name: Copy App
+      run: cp build/app.fba build/app.sdk5.fba
+
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       if: ${{ success() }}
       with:
-        path: build/app.fba
+        path: build/app.sdk5.fba
         if-no-files-found: error
 
   build-sdk6:
@@ -100,9 +106,12 @@ jobs:
     - name: Run Build
       run: npx fitbit-build --if-present
 
+    - name: Copy App
+      run: cp build/app.fba build/app.sdk6.fba
+
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       if: ${{ success() }}
       with:
-        path: build/app.fba
+        path: build/app.sdk6.fba
         if-no-files-found: error
