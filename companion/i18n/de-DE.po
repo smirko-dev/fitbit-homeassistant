@@ -7,3 +7,6 @@ msgstr "Verbindungsfehler"
 
 msgid "response_error"
 msgstr "Antwortfehler"
+
+msgid "error"
+msgstr "Fehler"

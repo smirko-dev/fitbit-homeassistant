@@ -71,7 +71,7 @@ function fetchEntity(url, token, entity) {
             sendData(msgData);
         }
         else {
-            console.log(`[fetchEntity] ErrorCode ${response.status}`);
+            console.log(`[fetchEntity] ${gettext("error")} ${response.status}`);
         }
     })
     .catch(err => console.log('[fetchEntity]: ' + err));
@@ -99,7 +99,7 @@ function fetchApiStatus(url, token) {
         else {
             const json = JSON.stringify({
                 key: "api",
-                value: `ErrorCode ${response.status}`
+                value: `${gettext("error")} ${response.status}`
             });
             sendData(json);
         }
@@ -170,7 +170,7 @@ function changeEntity(url, token, entity, state) {
             }
         }
         else {
-            console.log(`[changeEntity] ErrorCode ${response.status}`);
+            console.log(`[changeEntity] ${gettext("error")} ${response.status}`);
         }
     })
     .catch(err => console.log('[changeEntity]: ' + err));
