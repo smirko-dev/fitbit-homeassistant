@@ -10,6 +10,27 @@ let Port = "8123";
 let Token = "";
 let Force = false;
 
+const groups = {
+    switch: "switch",
+    light: "light",
+    group: "homeassistant",
+    script: "script",
+    automation: "automation",
+    cover: "cover",
+}
+
+const nextStateOverrides = {
+    script: "turn_on",
+    automation: "trigger",
+}
+
+const forcedStates = {
+    turn_on: "on",
+    turn_off: "off",
+    close_cover: "closed",
+    open_cover: "open",
+}
+
 // Return address as URL + Port
 function address() {
     return URL + ':' + Port;
@@ -110,21 +131,9 @@ function changeEntity(url, token, entity, state) {
     const json = JSON.stringify({
         entity_id: `${entity}`
     });
-    let group = "switch";
-    if (entity.startsWith("light")) {
-        group = "light";
-    }
-    else if (entity.startsWith("group")) {
-        group = "homeassistant";
-    }
-    else if (entity.startsWith("script")) {
-        group = "script";
-        state = "turn_on";
-    }
-    else if (entity.startsWith("automation")) {
-        group = "automation";
-        state = "trigger";
-    }
+    const domain = entity.split('.')[0]
+    const group = groups[domain]
+    state = nextStateOverrides[domain] || state
     //DEBUG console.log(`SENT ${url}/api/services/${group}/${state} FOR ${entity}`);
     fetch(`${url}/api/services/${group}/${state}`, {
         method: "POST",
@@ -141,7 +150,7 @@ function changeEntity(url, token, entity, state) {
             let msgData = {
                 key: "change",
                 id: entity,
-                state: state === 'turn_on' ? 'on' : 'off'
+                state: forcedStates[state] || state,
             };
             if (!entity.startsWith("script") && !entity.startsWith("automation")) {
                 //DEBUG console.log('FORCED', JSON.stringify(msgData));
