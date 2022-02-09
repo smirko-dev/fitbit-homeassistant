@@ -12,7 +12,7 @@
 
 This app allows to control [Home Assistant](https://www.home-assistant.io/) entities from a [Fitbit watch](https://www.fitbit.com/global/eu/home).
 
-Supported languages: de-DE, en-US.
+Supported languages: de-DE, en-US, it-IT.
 
 Supported entity types:
 - switch (on/off)

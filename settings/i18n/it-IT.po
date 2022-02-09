@@ -1,0 +1,9 @@
+
+msgid "add_title"
+msgstr "Nuova entità"
+
+msgid "add_label"
+msgstr "Aggiungi entità"
+
+msgid "force_status"
+msgstr "Forza stato"
