@@ -9,7 +9,7 @@ import { sendData } from "../common/utils";
 
 import document from "document";
 
-const Available = false;
+let Available = false;
 const EntityList = document.getElementById("entityList");
 const AddressText = document.getElementById("addressText");
 AddressText.text = gettext("unavailable");
@@ -21,7 +21,7 @@ let settings = loadSettings();
 me.onunload = saveSettings;
 
 // List of {id: "", name: "", state: ""}
-const Entities = [];
+let Entities = [];
 
 // Update list data
 function setupList(list, data) {
@@ -35,7 +35,7 @@ function setupList(list, data) {
             };
         },
         configureTile: function(tile, info) {
-            if (info.type == "item-pool") {
+            if (info.type === "item-pool") {
                 tile.getElementById("itemText").text = `${info.name}`;
                 tile.getElementById("itemState").text = `${gettext(info.state)}`;
                 let touch = tile.getElementById("itemTouch");
@@ -109,7 +109,7 @@ messaging.peerSocket.onopen = () => {
     sendData({key: "entities", value: settings.entities});
     sendData({key: "force", value: settings.force});
 };
-  
+
 // Message socket closes
 messaging.peerSocket.onclose = () => {
     console.log("Socket closed");
@@ -121,7 +121,7 @@ function loadSettings() {
         return fs.readFileSync(settingsFile, settingsType);
     }
     catch (ex) {
-        console.log("Error loading settings");
+        console.error("Error loading settings");
         // Default values
         return {
             url: "localhost",

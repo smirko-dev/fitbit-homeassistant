@@ -69,7 +69,7 @@ function fetchEntity(url, token, entity) {
         }
         sendData(msgData);
     })
-    .catch(err => console.log('[FETCH]: ' + err));
+    .catch(err => console.error('[FETCH]: ' + err));
 }
 
 // Get Availability of HA
@@ -100,7 +100,7 @@ function fetchApiStatus(url, token) {
         }
     })
     .catch(err => {
-        console.log('[FETCH]: ' + err);
+        console.error('[FETCH]', err);
         sendData({key: "api", value: gettext("connection_error")});
     })
 }
@@ -136,7 +136,7 @@ function changeEntity(url, token, entity, state) {
     })
     .then(async(response) => {
         let data = await response.json();
-        //DEBUG console.log('RECEIVED ' + JSON.stringify(data));
+        //DEBUG console.log('RECEIVED', JSON.stringify(data));
         if (Force) {
             let msgData = {
                 key: "change",
@@ -144,7 +144,7 @@ function changeEntity(url, token, entity, state) {
                 state: state === 'turn_on' ? 'on' : 'off'
             };
             if (!entity.startsWith("script") && !entity.startsWith("automation")) {
-                //DEBUG console.log('FORCED ' + JSON.stringify(msgData));
+                //DEBUG console.log('FORCED', JSON.stringify(msgData));
                 sendData(msgData);
             }
         }
@@ -163,22 +163,22 @@ function changeEntity(url, token, entity, state) {
             })
         }
     })
-    .catch(err => console.log('[FETCH]: ' + err));
+    .catch(err => console.error('[FETCH]', err));
 }
 
 // Message socket opens
 messaging.peerSocket.onopen = () => {
-    console.log("Socket open");
+    console.log('Socket open');
 };
-  
+
 // Message socket closes
 messaging.peerSocket.onclose = () => {
-    console.log("Socket closed");
+    console.log('Socket closed');
 };
 
 // Received message
 messaging.peerSocket.onmessage = evt => {
-    console.log(`Received: ${JSON.stringify(evt.data)}`);
+    console.log('Received', JSON.stringify(evt.data));
     if (evt.data.key === "change") {
         changeEntity(address(), Token, evt.data.entity, evt.data.state);
     }
