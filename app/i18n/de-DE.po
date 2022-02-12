@@ -10,3 +10,15 @@ msgstr "AUS"
 
 msgid "exe"
 msgstr "EXE"
+
+msgid "opening"
+msgstr "ÖFF"
+
+msgid "open"
+msgstr "ÖFF"
+
+msgid "closing"
+msgstr "ZU"
+
+msgid "closed"
+msgstr "ZU"
