@@ -12,7 +12,7 @@ msgid "exe"
 msgstr "EXE"
 
 msgid "opening"
-msgstr "ÖFF"
+msgstr "AUF"
 
 msgid "open"
 msgstr "ÖFF"
