@@ -4,3 +4,9 @@ msgstr "Unavailable"
 
 msgid "connection_error"
 msgstr "Connection error"
+
+msgid "response_error"
+msgstr "Response error"
+
+msgid "error"
+msgstr "Error"
