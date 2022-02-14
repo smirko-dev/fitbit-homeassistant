@@ -75,7 +75,7 @@ messaging.peerSocket.onmessage = (evt) => {
     else if (evt.data.key === "api") {
         if (evt.data.value === "ok") {
             Available = true;
-            AddressText.text = settings.url + ':' + settings.port;
+            AddressText.text = evt.data.name;
         }
         else {
             Available = false;
