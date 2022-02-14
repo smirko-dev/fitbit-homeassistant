@@ -74,7 +74,7 @@ function fetchEntity(url, token, entity) {
 
 // Get Availability of HA
 function fetchApiStatus(url, token) {
-    fetch(`${url}/api/`, {
+    fetch(`${url}/api/config`, {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${token}`,
@@ -84,12 +84,7 @@ function fetchApiStatus(url, token) {
     .then(async(response) => {
         let data = await response.json();
         if (response.status === 200) {
-            if (data["message"] === "API running.") {
-                sendData({key: "api", value: "ok"});
-            }
-            else {
-                sendData({key: "api", value: data["message"]});
-            }
+            sendData({key: "api", value: "ok", name: data["location_name"]});
         }
         else {
             const json = JSON.stringify({
