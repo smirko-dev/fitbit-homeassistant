@@ -15,7 +15,7 @@ msgid "opening"
 msgstr "AUF"
 
 msgid "open"
-msgstr "ÖFF"
+msgstr "AUF"
 
 msgid "closing"
 msgstr "ZU"
