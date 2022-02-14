@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Support for cover entities
+- Bugfixes
+
+### Changed
+- Show location name instead of URL
 
 ## Version 0.5
 
