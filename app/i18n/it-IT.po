@@ -9,4 +9,4 @@ msgid "off"
 msgstr "SPE"
 
 msgid "exe"
-msgstr "▶️"
+msgstr "ESE"
