@@ -19,7 +19,9 @@
   font-family: Colfax-Regular;
   text-anchor: start;
   text-length: 64;
-  fill: #FFFFFF
+  fill: #FFFFFF;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .itemState {
