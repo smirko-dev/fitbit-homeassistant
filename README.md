@@ -20,6 +20,7 @@ Supported entity types:
 - group (on/off)
 - automation (execute)
 - script (execute)
+- cover (open/close)
 
 App icon is from https://icon-icons.com/de/symbol/home-assistant/138491 ([Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)).
 
