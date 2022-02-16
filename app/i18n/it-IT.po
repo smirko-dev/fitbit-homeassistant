@@ -1,0 +1,12 @@
+
+msgid "unavailable"
+msgstr "N/D"
+
+msgid "on"
+msgstr "ACC"
+
+msgid "off"
+msgstr "SPE"
+
+msgid "exe"
+msgstr "ESE"
