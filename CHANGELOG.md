@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version 0.6
 
 ### Added
+- Support for cover entities
 - Italian language
 - Bugfixes
 
