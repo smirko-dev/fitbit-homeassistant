@@ -1,17 +1,8 @@
-
 import * as messaging from "messaging";
 import { gettext } from "i18n";
-import { me as companion } from "companion";
-
-import { settingsStorage } from "settings";
 import { sendData, isEmpty } from "../common/utils";
 
-let URL = "";
-let Port = "8123";
-let Token = "";
-let Force = false;
-
-const groups = {
+const Groups = {
     switch: "switch",
     light: "light",
     group: "homeassistant",
@@ -20,67 +11,42 @@ const groups = {
     cover: "cover",
 }
 
-const nextStateOverrides = {
+const NextStateOverrides = {
     script: "turn_on",
     automation: "trigger",
 }
 
-const forcedStates = {
+const ForcedStates = {
     turn_on: "on",
     turn_off: "off",
     close_cover: "closed",
     open_cover: "open",
 }
 
-// Return address as URL + Port
-function address() {
-    return URL + ':' + Port;
-}
-
-// Settings have been changed
-settingsStorage.onchange = function(evt) {
-    if (evt.key === "url") {
-        let data = JSON.parse(evt.newValue);
-        sendData({key: "url", value: data["name"]});
+export function HomeAssistantAPI(url, token, force) {
+    if (url !== undefined && token !== undefined) {
+        this.url = url;
+        this.token = token;
+        if (force !== undefined) {
+            this.force = force;
+        }
+        else {
+            this.force = false;
+        }
     }
-    else if (evt.key === "port") {
-        let data = JSON.parse(evt.newValue);
-        sendData({key: "port", value: data["name"]});
-    }
-    else if (evt.key === "token") {
-        let data = JSON.parse(evt.newValue);
-        sendData({key: "token", value: data["name"]});
-    }
-    else if (evt.key === "entities") {
-        sendData({key: "clear"});
-        JSON.parse(evt.newValue).forEach(element => {
-            fetchEntity(address(), Token, element["name"]);
-        });
-    }
-    else if (evt.key === "force") {
-        let data = JSON.parse(evt.newValue);
-        sendData({key: "force", value: data});
+    else {
+        this.url = 'https://120.0.0.1:8123';
+        this.token = '';
+        this.force = false;
     }
 }
 
-// Settings changed while companion was not running
-if (companion.launchReasons.settingsChanged) {
-    const keys = ["url", "port", "token", "force"];
-    keys.forEach(function(keyName, index, array) {
-        sendData({key: keyName, settingsStorage.getItem(keyName)});
-    });
-    sendData({key: "clear"});
-    settingsStorage.getItem("entities").forEach(element => {
-        fetchEntity(address(), Token, element["name"]);
-    });
-}
-
-// Get entity info
-function fetchEntity(url, token, entity) {
-    fetch(`${url}/api/states/${entity}`, {
+HomeAssistantAPI.prototype.fetchEntity = function(entity) {
+    let self = this;
+    fetch(`${self.url}/api/states/${entity}`, {
         method: "GET",
         headers: {
-            "Authorization": `Bearer ${token}`,
+            "Authorization": `Bearer ${self.token}`,
             "content-type": "application/json",
         }
     })
@@ -111,12 +77,12 @@ function fetchEntity(url, token, entity) {
     .catch(err => console.log('[fetchEntity]: ' + err));
 }
 
-// Get Availability of HA
-function fetchApiStatus(url, token) {
-    fetch(`${url}/api/config`, {
+HomeAssistantAPI.prototype.fetchApiStatus = function() {
+    let self = this;
+    fetch(`${self.url}/api/config`, {
         method: "GET",
         headers: {
-            "Authorization": `Bearer ${token}`,
+            "Authorization": `Bearer ${self.token}`,
             "content-type": "application/json",
         }
     })
@@ -139,20 +105,20 @@ function fetchApiStatus(url, token) {
     })
 }
 
-// Change entity state
-function changeEntity(url, token, entity, state) {
+HomeAssistantAPI.prototype.changeEntity = function(entity, state) {
+    let self = this;
     const json = JSON.stringify({
         entity_id: `${entity}`
     });
-    const domain = entity.split('.')[0]
-    const group = groups[domain]
-    state = nextStateOverrides[domain] || state
+    const domain = entity.split('.')[0];
+    const group = Groups[domain];
+    state = NextStateOverrides[domain] || state;
     //DEBUG console.log(`SENT ${url}/api/services/${group}/${state} FOR ${entity}`);
-    fetch(`${url}/api/services/${group}/${state}`, {
+    fetch(`${self.url}/api/services/${group}/${state}`, {
         method: "POST",
         body: json,
         headers: {
-            "Authorization": `Bearer ${token}`,
+            "Authorization": `Bearer ${self.token}`,
             "content-type": "application/json",
         }
     })
@@ -160,11 +126,11 @@ function changeEntity(url, token, entity, state) {
         if (response.ok) {
             let data = await response.json();
             //DEBUG console.log('RECEIVED ' + JSON.stringify(data));
-            if (Force) {
+            if (self.force) {
                 let msgData = {
                     key: "change",
                     id: entity,
-                    state: forcedStates[state] || state,
+                    state: ForcedStates[state] || state,
                 };
                 if (!entity.startsWith("script") && !entity.startsWith("automation")) {
                     //DEBUG console.log('FORCED ' + JSON.stringify(msgData));
@@ -192,50 +158,3 @@ function changeEntity(url, token, entity, state) {
     })
     .catch(err => console.log('[changeEntity]: ' + err));
 }
-
-// Message socket opens
-messaging.peerSocket.onopen = () => {
-    console.log('Socket open');
-};
-
-// Message socket closes
-messaging.peerSocket.onclose = () => {
-    console.log('Socket closed');
-};
-
-// Received message
-messaging.peerSocket.onmessage = evt => {
-    console.log('Received', JSON.stringify(evt.data));
-    if (evt.data.key === "change") {
-        changeEntity(address(), Token, evt.data.entity, evt.data.state);
-    }
-    else if (evt.data.key === "url") {
-        URL = evt.data.value;
-        if (URL && Port && Token) {
-            fetchApiStatus(address(), Token);
-        }
-    }
-    else if (evt.data.key === "port") {
-        Port = evt.data.value;
-        if (URL && Port && Token) {
-            fetchApiStatus(address(), Token);
-        }
-    }
-    else if (evt.data.key === "token") {
-        Token = evt.data.value;
-        if (URL && Port && Token) {
-            fetchApiStatus(address(), Token);
-        }
-    }
-    else if (evt.data.key === "entities") {
-        if (evt.data.value) {
-            sendData({key: "clear"});
-            evt.data.value.forEach(element => {
-                fetchEntity(address(), Token, element["name"]);
-            })
-        }
-    }
-    else if (evt.data.key === "force") {
-        Force = evt.data.value;
-    }
-};
