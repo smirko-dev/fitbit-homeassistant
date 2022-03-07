@@ -67,7 +67,7 @@ settingsStorage.onchange = function(evt) {
 if (companion.launchReasons.settingsChanged) {
     const keys = ["url", "port", "token", "force"];
     keys.forEach(function(keyName, index, array) {
-        sendData({key: keyName, settingsStorage.getItem(keyName)});
+        sendData({key: keyName, value: settingsStorage.getItem(keyName)});
     });
     sendData({key: "clear"});
     settingsStorage.getItem("entities").forEach(element => {
