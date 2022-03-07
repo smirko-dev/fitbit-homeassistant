@@ -1,6 +1,7 @@
 
 import * as messaging from "messaging";
 import { gettext } from "i18n";
+import { me as companion } from "companion";
 
 import { settingsStorage } from "settings";
 import { sendData, isEmpty } from "../common/utils";
@@ -54,12 +55,24 @@ settingsStorage.onchange = function(evt) {
         sendData({key: "clear"});
         JSON.parse(evt.newValue).forEach(element => {
             fetchEntity(address(), Token, element["name"]);
-        })
+        });
     }
     else if (evt.key === "force") {
         let data = JSON.parse(evt.newValue);
         sendData({key: "force", value: data});
     }
+}
+
+// Settings changed while companion was not running
+if (companion.launchReasons.settingsChanged) {
+    const keys = ["url", "port", "token", "force"];
+    keys.forEach(function(keyName, index, array) {
+        sendData({key: keyName, value: settingsStorage.getItem(keyName)});
+    });
+    sendData({key: "clear"});
+    settingsStorage.getItem("entities").forEach(element => {
+        fetchEntity(address(), Token, element["name"]);
+    });
 }
 
 // Get entity info
