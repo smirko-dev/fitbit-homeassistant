@@ -70,7 +70,7 @@ if (companion.launchReasons.settingsChanged) {
         sendData({key: keyName, value: settingsStorage.getItem(keyName)});
     });
     sendData({key: "clear"});
-    settingsStorage.getItem("entities").forEach(element => {
+    JSON.parse(settingsStorage?.getItem("entities"))?.forEach((element) => {
         fetchEntity(address(), Token, element["name"]);
     });
 }
