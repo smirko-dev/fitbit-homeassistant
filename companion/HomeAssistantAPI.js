@@ -23,7 +23,7 @@ const ForcedStates = {
     open_cover: "open",
 }
 
-export function HomeAssistantAPI(url, token, force) {
+function HomeAssistantAPI(url, token, force) {
     if (url !== undefined && token !== undefined) {
         this.url = url;
         this.token = token;
@@ -158,3 +158,5 @@ HomeAssistantAPI.prototype.changeEntity = function(entity, state) {
     })
     .catch(err => console.log('[changeEntity]: ' + err));
 }
+
+module.exports = HomeAssistantAPI;
