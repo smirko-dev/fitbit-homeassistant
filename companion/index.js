@@ -6,6 +6,9 @@ import { me as companion } from "companion";
 import { settingsStorage } from "settings";
 import { sendData, isEmpty } from "../common/utils";
 
+var HA = require('./HomeAssistantAPI.js');
+HA = new HomeAssistantAPI("", "8123", "");
+
 let URL = "";
 let Port = "8123";
 let Token = "";
