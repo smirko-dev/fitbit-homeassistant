@@ -35,7 +35,7 @@ function HomeAssistantAPI(url, token, force) {
         }
     }
     else {
-        this.url = 'https://120.0.0.1:8123';
+        this.url = 'https://127.0.0.1:8123';
         this.token = '';
         this.force = false;
     }
