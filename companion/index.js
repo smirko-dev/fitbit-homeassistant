@@ -6,6 +6,7 @@ import { me as companion } from "companion";
 import { settingsStorage } from "settings";
 import { sendData, isEmpty } from "../common/utils";
 
+// Create HomeAssistantAPI object
 var HA = require('./HomeAssistantAPI.js');
 HA = new HomeAssistantAPI("127.0.0.1", "8123", "", false);
 
@@ -57,7 +58,7 @@ messaging.peerSocket.onclose = () => {
     console.log('Socket closed');
 };
 
-// Received message
+// Received message from App
 messaging.peerSocket.onmessage = evt => {
     console.log('Received', JSON.stringify(evt.data));
     if (evt.data.key === "change") {
