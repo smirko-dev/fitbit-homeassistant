@@ -97,7 +97,9 @@ Companion
 ```js
 var HA = require('./HomeAssistantAPI.js');
 HA = new HomeAssistantAPI("127.0.0.1", "8123", "", false);
+
 HA.changeToken("my_secret_access_token")
+HA.fetchApiStatus()
 
 HA.fetchEntity("switch.myswitch");
 ```
@@ -108,12 +110,16 @@ import * as messaging from "messaging";
 
 let Available = false;
 messaging.peerSocket.onmessage = (evt) => {
-  if (evt.data.key === "api") {
-    if (evt.data.value === "ok") {
-        Available = true;
+    if (evt.data.key === "api") {
+      if (evt.data.value === "ok") {
+          Available = true;
+      }
+      else {
+          Available = false;
+      }
     }
-    else {
-        Available = false;
+    else if (evt.data.key === "add") {
+       console.log(`New entry: ${evt.data.name}`);
     }
 }
 ```
