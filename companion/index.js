@@ -7,38 +7,7 @@ import { settingsStorage } from "settings";
 import { sendData, isEmpty } from "../common/utils";
 
 var HA = require('./HomeAssistantAPI.js');
-HA = new HomeAssistantAPI("127.0.0.1:8123", "", False);
-
-let URL = "";
-let Port = "8123";
-let Token = "";
-let Force = false;
-
-const groups = {
-    switch: "switch",
-    light: "light",
-    group: "homeassistant",
-    script: "script",
-    automation: "automation",
-    cover: "cover",
-}
-
-const nextStateOverrides = {
-    script: "turn_on",
-    automation: "trigger",
-}
-
-const forcedStates = {
-    turn_on: "on",
-    turn_off: "off",
-    close_cover: "closed",
-    open_cover: "open",
-}
-
-// Return address as URL + Port
-function address() {
-    return URL + ':' + Port;
-}
+HA = new HomeAssistantAPI("127.0.0.1", "8123", "", False);
 
 // Settings have been changed
 settingsStorage.onchange = function(evt) {
@@ -95,25 +64,16 @@ messaging.peerSocket.onmessage = evt => {
         HA.changeEntity(evt.data.entity, evt.data.state);
     }
     else if (evt.data.key === "url") {
-        URL = evt.data.value;
-        HA.setup(address(), Token, Force);
-        if (URL && Port && Token) {
-            HA.fetchApiStatus()
-        }
+        HA.changeUrl(evt.data.value);
+        HA.fetchApiStatus();
     }
     else if (evt.data.key === "port") {
-        Port = evt.data.value;
-        HA.setup(address(), Token, Force);
-        if (URL && Port && Token) {
-            HA.fetchApiStatus()
-        }
+        HA.changePort(evt.data.value);
+        HA.fetchApiStatus();
     }
     else if (evt.data.key === "token") {
-        Token = evt.data.value;
-        HA.setup(address(), Token, Force);
-        if (URL && Port && Token) {
-            HA.fetchApiStatus()
-        }
+        HA.changeToken(evt.data.value);
+        HA.fetchApiStatus();
     }
     else if (evt.data.key === "entities") {
         if (evt.data.value) {
@@ -124,6 +84,7 @@ messaging.peerSocket.onmessage = evt => {
         }
     }
     else if (evt.data.key === "force") {
-        HA.setup(address(), Token, evt.data.value);
+        HA.changeForce(evt.data.value);
+        HA.fetchApiStatus();
     }
 };
