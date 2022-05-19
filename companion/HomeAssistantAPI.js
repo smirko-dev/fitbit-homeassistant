@@ -24,20 +24,26 @@ const ForcedStates = {
 }
 
 function HomeAssistantAPI(url, token, force) {
+    let self = this;
+    self.setup(url, token, force);
+}
+
+HomeAssistantAPI.prototype.setup = function(url, token, force) {
+    let self = this;
     if (url !== undefined && token !== undefined) {
-        this.url = url;
-        this.token = token;
+        self.url = url;
+        self.token = token;
         if (force !== undefined) {
-            this.force = force;
+            self.force = force;
         }
         else {
-            this.force = false;
+            self.force = false;
         }
     }
     else {
-        this.url = 'https://127.0.0.1:8123';
-        this.token = '';
-        this.force = false;
+        self.url = 'https://127.0.0.1:8123';
+        self.token = '';
+        self.force = false;
     }
 }
 
