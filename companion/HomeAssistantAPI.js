@@ -23,33 +23,67 @@ const ForcedStates = {
     open_cover: "open",
 }
 
-function HomeAssistantAPI(url, token, force) {
+function HomeAssistantAPI(url, port, token, force) {
     let self = this;
-    self.setup(url, token, force);
+    self.setup(url, port, token, force);
 }
 
-HomeAssistantAPI.prototype.setup = function(url, token, force) {
+HomeAssistantAPI.prototype.setup = function(url, port, token, force) {
     let self = this;
-    if (url !== undefined && token !== undefined) {
+    self.changeUrl(url);
+    self.changePort(port);
+    self.changeToken(token);
+    self.changeForce(force);
+}
+
+HomeAssistantAPI.prototype.changeUrl = function(url) {
+    let self = this;
+    if (url !== undefined) {
         self.url = url;
-        self.token = token;
-        if (force !== undefined) {
-            self.force = force;
-        }
-        else {
-            self.force = false;
-        }
     }
     else {
-        self.url = 'https://127.0.0.1:8123';
+        self.url = '127.0.0.1';
+    }
+}
+
+HomeAssistantAPI.prototype.changePort = function(port) {
+    let self = this;
+    if (port !== undefined) {
+        self.port = port;
+    }
+    else {
+        self.port = '8123';
+    }
+}
+
+HomeAssistantAPI.prototype.changeToken = function(token) {
+    let self = this;
+    if (token !== undefined) {
+        self.token = token;
+    }
+    else {
         self.token = '';
+    }
+}
+
+HomeAssistantAPI.prototype.changeForce = function(force) {
+    let self = this;
+    if (force !== undefined) {
+        self.force = force;
+    }
+    else {
         self.force = false;
     }
 }
 
+HomeAssistantAPI.prototype.address = function() {
+    let self = this;
+    return self.url + ':' + self.port
+}
+
 HomeAssistantAPI.prototype.fetchEntity = function(entity) {
     let self = this;
-    fetch(`${self.url}/api/states/${entity}`, {
+    fetch(`${self.address()}/api/states/${entity}`, {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${self.token}`,
@@ -85,7 +119,7 @@ HomeAssistantAPI.prototype.fetchEntity = function(entity) {
 
 HomeAssistantAPI.prototype.fetchApiStatus = function() {
     let self = this;
-    fetch(`${self.url}/api/config`, {
+    fetch(`${self.address()}/api/config`, {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${self.token}`,
@@ -120,7 +154,7 @@ HomeAssistantAPI.prototype.changeEntity = function(entity, state) {
     const group = Groups[domain];
     state = NextStateOverrides[domain] || state;
     //DEBUG console.log(`SENT ${url}/api/services/${group}/${state} FOR ${entity}`);
-    fetch(`${self.url}/api/services/${group}/${state}`, {
+    fetch(`${self.address()}/api/services/${group}/${state}`, {
         method: "POST",
         body: json,
         headers: {
