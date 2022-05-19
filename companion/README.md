@@ -91,6 +91,14 @@ The asynchronous answer will be packed as JSON in a socket message.
   </tr>
 </table>
 
+```mermaid
+flowchart TD;
+    Companion -- function --> HomeAssistantAPI;
+    HomeAssistantAPI -- fetch --> HomeAssistant;
+    HomeAssistant -- respond --> HomeAssistantAPI;
+    HomeAssistantAPI -- message --> App;
+```
+
 ## Example
 
 Companion
