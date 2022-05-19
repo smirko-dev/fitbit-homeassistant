@@ -28,6 +28,11 @@ function HomeAssistantAPI(url, port, token, force) {
     self.setup(url, port, token, force);
 }
 
+HomeAssistantAPI.prototype.isValid = function() {
+    let self = this;
+    return self.url !== undefined && self.port !== undefined && self.token !== undefined;
+}
+
 HomeAssistantAPI.prototype.setup = function(url, port, token, force) {
     let self = this;
     self.changeUrl(url);
