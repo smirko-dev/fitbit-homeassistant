@@ -216,18 +216,21 @@ messaging.peerSocket.onmessage = evt => {
         URL = evt.data.value;
         if (URL && Port && Token) {
             fetchApiStatus(address(), Token);
+            HA.setup(address(), Token, Force);
         }
     }
     else if (evt.data.key === "port") {
         Port = evt.data.value;
         if (URL && Port && Token) {
             fetchApiStatus(address(), Token);
+            HA.setup(address(), Token, Force);
         }
     }
     else if (evt.data.key === "token") {
         Token = evt.data.value;
         if (URL && Port && Token) {
             fetchApiStatus(address(), Token);
+            HA.setup(address(), Token, Force);
         }
     }
     else if (evt.data.key === "entities") {
@@ -240,5 +243,6 @@ messaging.peerSocket.onmessage = evt => {
     }
     else if (evt.data.key === "force") {
         Force = evt.data.value;
+        HA.setup(address(), Token, Force);
     }
 };
