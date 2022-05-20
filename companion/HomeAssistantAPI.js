@@ -23,9 +23,11 @@ const ForcedStates = {
     open_cover: "open",
 }
 
-function HomeAssistantAPI(url, port, token, force) {
-    let self = this;
-    self.setup(url, port, token, force);
+function HomeAssistantAPI() {
+    this.url = "";
+    this.port = "";
+    this.token = "";
+    this.force = false;
 }
 
 HomeAssistantAPI.prototype.isValid = function() {
