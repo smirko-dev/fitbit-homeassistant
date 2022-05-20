@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@fitbit/sdk": "~6.0.0",
+    "@fitbit/sdk": "~6.1.0",
     "@fitbit/sdk-cli": "^1.7.3"
   },
   "name": "homeassistant",
