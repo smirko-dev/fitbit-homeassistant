@@ -10,7 +10,7 @@
 
 ## Description
 
-This app allows to control [Home Assistant](https://www.home-assistant.io/) entities from a [Fitbit watch](https://www.fitbit.com/global/eu/home).
+This app allows to control [Home Assistant](https://www.home-assistant.io/) entities from a [Fitbit watch](https://www.fitbit.com/global/eu/home) via the [HomeAssistantAPI module](companion/) .
 
 Supported languages: de-DE, en-US, it-IT.
 
