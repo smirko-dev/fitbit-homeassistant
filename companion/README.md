@@ -1,6 +1,6 @@
 # HomeAssistantAPI
 
-The HomeAssistantAPI encapsulates the communication to the HomeAssistant instance.
+The [HomeAssistantAPI](HomeAssistantAPI.js) encapsulates the communication to the HomeAssistant instance.
 
 ## Setup
 
