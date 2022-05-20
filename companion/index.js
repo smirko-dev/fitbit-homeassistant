@@ -8,7 +8,7 @@ import { sendData, isEmpty } from "../common/utils";
 
 // Create HomeAssistantAPI object
 var HA = require('./HomeAssistantAPI.js');
-HA = new HomeAssistantAPI("127.0.0.1", "8123", "", false);
+HA = new HomeAssistantAPI();
 
 // Settings have been changed
 settingsStorage.onchange = function(evt) {
