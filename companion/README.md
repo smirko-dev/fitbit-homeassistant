@@ -116,18 +116,18 @@ App
 ```js
 import * as messaging from "messaging";
 
-let Available = false;
 messaging.peerSocket.onmessage = (evt) => {
     if (evt.data.key === "api") {
       if (evt.data.value === "ok") {
-          Available = true;
+          console.log("HomeAssistant available");
       }
       else {
-          Available = false;
+          console.log("HomeAssistant not available");
+          console.log(`Error: ${evt.data.value}`);
       }
     }
     else if (evt.data.key === "add") {
-       console.log(`New entry: ${evt.data.name}`);
+       console.log(`New entry: ${evt.data.name} = ${evt.data.state}`);
     }
 }
 ```
