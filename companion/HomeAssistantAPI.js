@@ -1,3 +1,7 @@
+/**
+ * @module HomeAssistantAPI
+ * @brief Provides interface for HomeAssistant communication
+ */
 import * as messaging from "messaging";
 import { gettext } from "i18n";
 import { sendData, isEmpty } from "../common/utils";
@@ -30,11 +34,22 @@ function HomeAssistantAPI() {
     this.force = false;
 }
 
+/**
+ * Configuration validity
+ * @return True if configuration contains valid data, otherwise false.
+ */
 HomeAssistantAPI.prototype.isValid = function() {
     let self = this;
     return self.url !== undefined && self.port !== undefined && self.token !== undefined;
 }
 
+/**
+ * Configuration validity
+ * @param {string} url - HomeAssistant instance URL 
+ * @param {string} port - HomeAssistant instance port
+ * @param {string} token - Access token
+ * @param {boolean} force - Force update flag
+ */
 HomeAssistantAPI.prototype.setup = function(url, port, token, force) {
     let self = this;
     self.changeUrl(url);
@@ -43,6 +58,10 @@ HomeAssistantAPI.prototype.setup = function(url, port, token, force) {
     self.changeForce(force);
 }
 
+/**
+ * Change URL
+ * @param {string} url - HomeAssistant instance URL 
+ */
 HomeAssistantAPI.prototype.changeUrl = function(url) {
     let self = this;
     if (url !== undefined) {
@@ -53,6 +72,10 @@ HomeAssistantAPI.prototype.changeUrl = function(url) {
     }
 }
 
+/**
+ * Change port number
+ * @param {string} port - HomeAssistant instance port
+ */
 HomeAssistantAPI.prototype.changePort = function(port) {
     let self = this;
     if (port !== undefined) {
@@ -63,6 +86,10 @@ HomeAssistantAPI.prototype.changePort = function(port) {
     }
 }
 
+/**
+ * Change token
+ * @param {string} token - Access token
+ */
 HomeAssistantAPI.prototype.changeToken = function(token) {
     let self = this;
     if (token !== undefined) {
@@ -73,6 +100,10 @@ HomeAssistantAPI.prototype.changeToken = function(token) {
     }
 }
 
+/**
+ * Change force update flag
+ * @param {boolean} force - Force update flag
+ */
 HomeAssistantAPI.prototype.changeForce = function(force) {
     let self = this;
     if (force !== undefined) {
@@ -83,11 +114,19 @@ HomeAssistantAPI.prototype.changeForce = function(force) {
     }
 }
 
+/**
+ * HomeAssistant address
+ * @return The complete HomeAssistant address including url and port
+ */
 HomeAssistantAPI.prototype.address = function() {
     let self = this;
     return self.url + ':' + self.port
 }
 
+/**
+ * Fetch entity
+ * @param {string} entity - Entity name
+ */
 HomeAssistantAPI.prototype.fetchEntity = function(entity) {
     let self = this;
     if (self.isValid()) {
@@ -126,6 +165,9 @@ HomeAssistantAPI.prototype.fetchEntity = function(entity) {
     }
 }
 
+/**
+ * Fetch HomeAssistant API status
+ */
 HomeAssistantAPI.prototype.fetchApiStatus = function() {
     let self = this;
     if (self.isValid()) {
@@ -156,6 +198,11 @@ HomeAssistantAPI.prototype.fetchApiStatus = function() {
     }
 }
 
+/**
+ * Change entity
+ * @param {string} entity - Entity name
+ * @param {string} state - New state value
+ */
 HomeAssistantAPI.prototype.changeEntity = function(entity, state) {
     let self = this;
     if (self.isValid()) {
