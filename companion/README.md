@@ -48,15 +48,15 @@ The asynchronous answer will be packed as JSON in a socket message.
   <tr>
     <td><code>fetchApiStatus()</code></td>
     <td>
-<code>
+Ok: <code>
 {
   "key": "api",
   "value": "ok",
   "name": "<i>location_name</i>"
 }
 </code>
-      Or in case of an error
-<code>
+<br />
+Error: <code>
 {
   "key": "api",
   "value": "<i>error_message</i>"
