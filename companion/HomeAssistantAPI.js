@@ -12,12 +12,14 @@ const Groups = {
     group: "homeassistant",
     script: "script",
     automation: "automation",
+    button: "button",
     cover: "cover",
 }
 
 const NextStateOverrides = {
     script: "turn_on",
     automation: "trigger",
+    button: "press"
 }
 
 const ForcedStates = {
@@ -27,6 +29,9 @@ const ForcedStates = {
     open_cover: "open",
 }
 
+/**
+ * Create HomeAssistantAPI class object
+ */
 function HomeAssistantAPI() {
     this.url = "";
     this.port = "";
@@ -149,10 +154,7 @@ HomeAssistantAPI.prototype.fetchEntity = function(entity) {
                 if (data["attributes"] && data["attributes"]["friendly_name"]) {
                     msgData.name = data["attributes"]["friendly_name"];
                 }
-                if (data["entity_id"].startsWith("script")) {
-                    msgData.state = 'exe'
-                }
-                else if (data["entity_id"].startsWith("automation")) {
+                if (self.isExecutable(data["entity_id"])) {
                     msgData.state = 'exe'
                 }
                 sendData(msgData);
@@ -231,7 +233,7 @@ HomeAssistantAPI.prototype.changeEntity = function(entity, state) {
                         id: entity,
                         state: ForcedStates[state] || state,
                     };
-                    if (!entity.startsWith("script") && !entity.startsWith("automation")) {
+                    if (!self.isExecutable(entity)) {
                         //DEBUG console.log('FORCED ' + JSON.stringify(msgData));
                         sendData(msgData);
                     }
@@ -244,7 +246,7 @@ HomeAssistantAPI.prototype.changeEntity = function(entity, state) {
                                 id: element["entity_id"],
                                 state: element["state"],
                             };
-                            if (!element["entity_id"].startsWith("script") && !element["entity_id"].startsWith("automation")) {
+                            if (!self.isExecutable(element["entity_id"])) {
                                 sendData(msgData);
                             }
                         }
@@ -257,6 +259,18 @@ HomeAssistantAPI.prototype.changeEntity = function(entity, state) {
         })
         .catch(err => console.log('[changeEntity]: ' + err));
     }
+}
+
+/**
+ * Returns if an entity is an executable
+ * @param {string} entity - Entity name
+ * @return True if entity is an executable, otherwise false
+ */
+HomeAssistantAPI.prototype.isExecutable = function(entity) {
+    if (!entity.startsWith("script") && !entity.startsWith("automation") && !entity.startsWith("button")) {
+        return false;
+    }
+    return true;
 }
 
 module.exports = HomeAssistantAPI;
