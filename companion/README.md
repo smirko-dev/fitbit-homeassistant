@@ -103,8 +103,8 @@ flowchart TD;
 
 Companion
 ```js
-var HA = require('./HomeAssistantAPI.js');
-HA = new HomeAssistantAPI();
+import { HomeAssistantAPI } from "./HomeAssistantAPI";
+var HA = new HomeAssistantAPI();
 HA.setup("127.0.0.1", "8123", "my_secret_access_token", false);
 HA.fetchApiStatus();
 HA.fetchEntity("switch.myswitch");
