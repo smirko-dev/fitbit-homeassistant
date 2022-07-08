@@ -46,41 +46,6 @@ jobs:
         path: build/app.sdk4.fba
         if-no-files-found: error
 
-  build-sdk5:
-    name: Build SDK5
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout branch
-      uses: actions/checkout@v2
-      with:
-          lfs: true
-
-    - name: Setup node
-      uses: actions/setup-node@v1
-
-    - name: Select SDK 5
-      run: cp package.sdk5.json package.json
-
-    - name: Checkout Fitbit SDK
-      run: npm add --also=dev @fitbit/sdk
-
-    - name: Checkout Fitbit SDK-CLI
-      run: npm add --also=dev @fitbit/sdk-cli
-
-    - name: Run Build
-      run: npx fitbit-build --if-present
-
-    - name: Copy App
-      run: cp build/app.fba build/app.sdk5.fba
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      if: ${{ success() }}
-      with:
-        path: build/app.sdk5.fba
-        if-no-files-found: error
-
   build-sdk6:
     name: Build SDK6
     runs-on: ubuntu-latest
