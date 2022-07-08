@@ -7,7 +7,7 @@
 [![](https://img.shields.io/badge/license-MIT-blue)](https://github.com/smirko-dev/fitbit-homeassistant/blob/main/LICENSE)
 [![FitbitBuild Actions Status](https://github.com/smirko-dev/fitbit-homeassistant/workflows/FitbitBuild/badge.svg)](https://github.com/smirko-dev/fitbit-homeassistant/actions)
 [![CodeQL Actions Status](https://github.com/smirko-dev/fitbit-homeassistant/workflows/CodeQL/badge.svg)](https://github.com/smirko-dev/fitbit-homeassistant/actions)
-
+[![Github All Releases](https://img.shields.io/github/downloads/smirko-dev/fitbit-homeassistant/total.svg)](https://github.com/smirko-dev/fitbit-homeassistant/releases)
 ## Description
 
 This app allows to control [Home Assistant](https://www.home-assistant.io/) entities from a [Fitbit watch](https://www.fitbit.com/global/eu/home) via the [HomeAssistantAPI module](companion/) .
