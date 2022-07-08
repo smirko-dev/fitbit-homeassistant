@@ -94,7 +94,7 @@ Error: <code>
 ```mermaid
 flowchart TD;
     Companion -- function --> HomeAssistantAPI;
-    HomeAssistantAPI -- fetch --> HomeAssistant;
+    HomeAssistantAPI -- request --> HomeAssistant;
     HomeAssistant -- respond --> HomeAssistantAPI;
     HomeAssistantAPI -- message --> App;
 ```

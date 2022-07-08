@@ -213,7 +213,7 @@ HomeAssistantAPI.prototype.changeEntity = function(entity, state) {
         const domain = entity.split('.')[0];
         const group = Groups[domain];
         state = NextStateOverrides[domain] || state;
-        //DEBUG console.log(`SENT ${url}/api/services/${group}/${state} FOR ${entity}`);
+        //DEBUG console.log(`SENT ${self.url}/api/services/${group}/${state} FOR ${entity}`);
         fetch(`${self.address()}/api/services/${group}/${state}`, {
             method: "POST",
             body: json,

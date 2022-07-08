@@ -22,7 +22,7 @@ me.onunload = saveSettings;
 
 // List of {id: "", name: "", state: ""}
 let Entities = [];
-const nextStates = {
+const NextStates = {
     on: "turn_off",
     off: "turn_on",
     open: "close_cover",
@@ -47,7 +47,7 @@ function setupList(list, data) {
                 tile.getElementById("itemText").text = `${info.name}`;
                 tile.getElementById("itemState").text = `${gettext(info.state)}`;
                 let touch = tile.getElementById("itemTouch");
-                touch.onclick = () => sendData({key: "change", entity: Entities[info.index].id, state: nextStates[info.state]});
+                touch.onclick = () => sendData({key: "change", entity: Entities[info.index].id, state: NextStates[info.state]});
             }
         }
     };
@@ -69,6 +69,7 @@ messaging.peerSocket.onmessage = (evt) => {
     else if (evt.data.key === "change") {
         Entities.forEach((entity, index) => {
             if (entity.id === evt.data.id) {
+                //DEBUG console.log(`Updated: ${evt.data.id} to ${evt.data.state}`);
                 Entities[index].state = evt.data.state;
                 setupList(EntityList, Entities);
             }
