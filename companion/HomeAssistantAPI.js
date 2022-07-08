@@ -2,7 +2,6 @@
  * @module HomeAssistantAPI
  * @brief Provides interface for HomeAssistant communication
  */
-import * as messaging from "messaging";
 import { gettext } from "i18n";
 import { sendData, isEmpty } from "../common/utils";
 
@@ -32,7 +31,7 @@ const ForcedStates = {
 /**
  * Create HomeAssistantAPI class object
  */
-function HomeAssistantAPI() {
+export function HomeAssistantAPI() {
     this.url = "";
     this.port = "";
     this.token = "";
@@ -272,5 +271,3 @@ HomeAssistantAPI.prototype.isExecutable = function(entity) {
     }
     return true;
 }
-
-module.exports = HomeAssistantAPI;

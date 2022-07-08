@@ -6,9 +6,10 @@ import { me as companion } from "companion";
 import { settingsStorage } from "settings";
 import { sendData, isEmpty } from "../common/utils";
 
+import { HomeAssistantAPI } from "./HomeAssistantAPI";
+
 // Create HomeAssistantAPI object
-var HA = require('./HomeAssistantAPI.js');
-HA = new HomeAssistantAPI();
+var HA = new HomeAssistantAPI();
 
 // Settings have been changed
 settingsStorage.onchange = function(evt) {
