@@ -114,7 +114,7 @@ HomeAssistantAPI.prototype.changeForce = function(force) {
         self.force = force;
     }
     else {
-        self.force = false;
+        self.force = true;
     }
 }
 

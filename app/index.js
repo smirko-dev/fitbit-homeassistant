@@ -130,7 +130,7 @@ function loadSettings() {
             url: "localhost",
             port: "8123",
             token: "",
-            force: false
+            force: true
         };
     }
 }
