@@ -10,3 +10,15 @@ msgstr "SPE"
 
 msgid "exe"
 msgstr "ESE"
+
+msgid "open"
+msgstr "APE"
+
+msgid "opening"
+msgstr "APE"
+
+msgid "closing"
+msgstr "CHI"
+
+msgid "closed"
+msgstr "CHI"
