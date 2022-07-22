@@ -13,7 +13,8 @@ const Groups = {
     automation: "automation",
     button: "button",
     cover: "cover",
-    camera: "camera"
+    camera: "camera",
+    fan: "fan"
 }
 
 const NextStateOverrides = {
