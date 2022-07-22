@@ -14,7 +14,8 @@ const Groups = {
     button: "button",
     cover: "cover",
     camera: "camera",
-    fan: "fan"
+    fan: "fan",
+    siren: "siren"
 }
 
 const NextStateOverrides = {
