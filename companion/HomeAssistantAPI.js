@@ -16,7 +16,8 @@ const Groups = {
     camera: "camera",
     fan: "fan",
     siren: "siren",
-    vacuum: "vacuum"
+    vacuum: "vacuum",
+    humidifier: "humidifier"
 }
 
 const NextStateOverrides = {
