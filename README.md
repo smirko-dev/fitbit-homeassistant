@@ -25,7 +25,7 @@ Supported entity types:
 <tbody>
   <tr>
     <td>on / off</td>
-    <td>switch, light, group, camera</td>
+    <td>switch, light, group, camera, fan</td>
   </tr>
   <tr>
     <td>open / close</td>
