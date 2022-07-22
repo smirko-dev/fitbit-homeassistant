@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version 1.0
 
 ### Added
-- Support button for entities
+- Support for button entities
 
 ### Changed
 - Created HomeassistantAPI module
