@@ -38,6 +38,8 @@ Supported entity types:
 </tbody>
 </table>
 
+Find detailed descriptions about supported entity types [here](https://developers.home-assistant.io/docs/core/entity/). 
+
 App icon is from https://icon-icons.com/de/symbol/home-assistant/138491 ([Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)).
 
 ### Requirements
