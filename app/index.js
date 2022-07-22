@@ -9,7 +9,6 @@ import { sendData } from "../common/utils";
 
 import document from "document";
 
-let Available = false;
 const EntityList = document.getElementById("entityList");
 const AddressText = document.getElementById("addressText");
 AddressText.text = gettext("unavailable");
@@ -77,11 +76,9 @@ messaging.peerSocket.onmessage = (evt) => {
     }
     else if (evt.data.key === "api") {
         if (evt.data.value === "ok") {
-            Available = true;
             AddressText.text = evt.data.name;
         }
         else {
-            Available = false;
             AddressText.text = evt.data.value;
         }
     }

@@ -13,6 +13,11 @@ const Groups = {
     automation: "automation",
     button: "button",
     cover: "cover",
+    camera: "camera",
+    fan: "fan",
+    siren: "siren",
+    vacuum: "vacuum",
+    humidifier: "humidifier"
 }
 
 const NextStateOverrides = {
@@ -26,6 +31,17 @@ const ForcedStates = {
     turn_off: "off",
     close_cover: "closed",
     open_cover: "open",
+}
+
+const StatesMap = {
+    cleaning: "on",
+    returning: "on",
+    docked: "off",
+    paused: "off",
+    error: "off",
+    idle: "off",
+    recording: "on",
+    streaming: "on",
 }
 
 /**
@@ -149,7 +165,7 @@ HomeAssistantAPI.prototype.fetchEntity = function(entity) {
                     key: "add",
                     id: data["entity_id"],
                     name: data["entity_id"],
-                    state: data["state"],
+                    state: StatesMap[data["state"]] || data["state"],
                 };
                 if (data["attributes"] && data["attributes"]["friendly_name"]) {
                     msgData.name = data["attributes"]["friendly_name"];
@@ -244,7 +260,7 @@ HomeAssistantAPI.prototype.changeEntity = function(entity, state) {
                             let msgData = {
                                 key: "change",
                                 id: element["entity_id"],
-                                state: element["state"],
+                                state: StatesMap[element["state"]] || element["state"],
                             };
                             if (!self.isExecutable(element["entity_id"])) {
                                 sendData(msgData);

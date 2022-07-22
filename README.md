@@ -3,7 +3,7 @@
 [![](https://img.shields.io/badge/Fitbit%20App%20Gallery-%2300B0B9?style=flat&logo=fitbit&logoColor=white)](https://gallery.fitbit.com/details/158edb1c-f748-4dbf-a682-b9dae2b74457)
 ![languages](https://img.shields.io/badge/languages-JavaScript%20|%20CSS-blue)
 ![platform](https://img.shields.io/badge/platforms-Ionic%20|%20Versa%20|%20Versa%202%20|%20Versa%20Lite%20|%20Versa%203%20|%20Sense-silver)
-[![version](https://img.shields.io/badge/version-%201.0-blue)](https://github.com/smirko-dev/fitbit-homeassistant/blob/main/CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-%201.1-blue)](https://github.com/smirko-dev/fitbit-homeassistant/blob/main/CHANGELOG.md)
 [![](https://img.shields.io/badge/license-MIT-blue)](https://github.com/smirko-dev/fitbit-homeassistant/blob/main/LICENSE)
 [![FitbitBuild Actions Status](https://github.com/smirko-dev/fitbit-homeassistant/workflows/FitbitBuild/badge.svg)](https://github.com/smirko-dev/fitbit-homeassistant/actions)
 [![CodeQL Actions Status](https://github.com/smirko-dev/fitbit-homeassistant/workflows/CodeQL/badge.svg)](https://github.com/smirko-dev/fitbit-homeassistant/actions)
@@ -25,7 +25,7 @@ Supported entity types:
 <tbody>
   <tr>
     <td>on / off</td>
-    <td>switch, light, group</td>
+    <td>switch, light, group, camera, fan, siren, vacuum, humidifier</td>
   </tr>
   <tr>
     <td>open / close</td>
@@ -37,6 +37,8 @@ Supported entity types:
   </tr>
 </tbody>
 </table>
+
+Find detailed descriptions about supported entity types [here](https://developers.home-assistant.io/docs/core/entity/). 
 
 App icon is from https://icon-icons.com/de/symbol/home-assistant/138491 ([Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)).
 
