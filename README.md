@@ -25,15 +25,15 @@ Supported entity types:
 <tbody>
   <tr>
     <td>on / off</td>
-    <td>[switch](https://www.home-assistant.io/integrations/switch/), [light](https://www.home-assistant.io/integrations/light/), [group](https://www.home-assistant.io/integrations/group/), [vacuum](https://www.home-assistant.io/integrations/vacuum/)</td>
+    <td><a href="https://www.home-assistant.io/integrations/switch/">switch</a>, <a href="https://www.home-assistant.io/integrations/light/">light</a>, <a href="https://www.home-assistant.io/integrations/vacuum/">vacuum</a>, <a href="https://www.home-assistant.io/integrations/group/">group</a></td>
   </tr>
   <tr>
     <td>open / close</td>
-    <td>cover</td>
+    <td><a href="https://www.home-assistant.io/integrations/cover/">cover</a></td>
   </tr>
   <tr>
     <td>execute</td>
-    <td>[automation](https://www.home-assistant.io/docs/automation/), [script](https://www.home-assistant.io/integrations/script/), [button](https://www.home-assistant.io/integrations/button/)</td>
+    <td><a href="https://www.home-assistant.io/docs/automation/">automation</a>, <a href="https://www.home-assistant.io/integrations/script/">script</a>, <a href="https://www.home-assistant.io/integrations/button/">button</a></td>
   </tr>
 </tbody>
 </table>
