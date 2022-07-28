@@ -4,7 +4,7 @@ import * as messaging from "messaging";
 
 import { me } from "appbit";
 import { gettext } from "i18n";
-import { settingsType, settingsFile } from "../common/constants";
+import { settingsType, settingsFile, StateMap, ActionMap } from "../common/constants";
 import { sendData } from "../common/utils";
 
 import document from "document";
@@ -21,14 +21,6 @@ me.onunload = saveSettings;
 
 // List of {id: "", name: "", state: ""}
 let Entities = [];
-const NextStates = {
-    on: "turn_off",
-    off: "turn_on",
-    open: "close_cover",
-    opening: "close_cover",
-    closing: "open_cover",
-    closed: "open_cover",
-}
 
 // Update list data
 function setupList(list, data) {
@@ -44,9 +36,9 @@ function setupList(list, data) {
         configureTile: function(tile, info) {
             if (info.type === "item-pool") {
                 tile.getElementById("itemText").text = `${info.name}`;
-                tile.getElementById("itemState").text = `${gettext(info.state)}`;
+                tile.getElementById("itemState").text = `${gettext(StateMap[info.state])}`;
                 let touch = tile.getElementById("itemTouch");
-                touch.onclick = () => sendData({key: "change", entity: Entities[info.index].id, state: NextStates[info.state]});
+                touch.onclick = () => sendData({key: "change", entity: Entities[info.index].id, state: ActionMap[info.state]});
             }
         }
     };

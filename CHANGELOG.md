@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version 1.1
 
 ### Added
-- Support for camera, fan, siren, vacuum and humidifier entities
+- Support for vacuum
 
 ### Changed
 - Minor bug fixes

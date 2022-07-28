@@ -4,6 +4,7 @@ import { gettext } from "i18n";
 import { me as companion } from "companion";
 
 import { settingsStorage } from "settings";
+import { ForcedMap } from "../common/constants";
 import { sendData, isEmpty } from "../common/utils";
 
 import { HomeAssistantAPI } from "./HomeAssistantAPI";
@@ -63,7 +64,7 @@ messaging.peerSocket.onclose = () => {
 messaging.peerSocket.onmessage = evt => {
     console.log('Received', JSON.stringify(evt.data));
     if (evt.data.key === "change") {
-        HA.changeEntity(evt.data.entity, evt.data.state);
+        HA.changeEntity(evt.data.entity, evt.data.state, ForcedMap[evt.data.state]);
     }
     else if (evt.data.key === "url") {
         HA.changeUrl(evt.data.value);
