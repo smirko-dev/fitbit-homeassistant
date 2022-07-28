@@ -25,7 +25,7 @@ Supported entity types:
 <tbody>
   <tr>
     <td>on / off</td>
-    <td>switch, light, group, vacuum</td>
+    <td>[switch](https://www.home-assistant.io/integrations/switch/), [light](https://www.home-assistant.io/integrations/light/), [group](https://www.home-assistant.io/integrations/group/), [vacuum](https://www.home-assistant.io/integrations/vacuum/)</td>
   </tr>
   <tr>
     <td>open / close</td>
@@ -33,7 +33,7 @@ Supported entity types:
   </tr>
   <tr>
     <td>execute</td>
-    <td>automation, script, button</td>
+    <td>[automation](https://www.home-assistant.io/docs/automation/), [script](https://www.home-assistant.io/integrations/script/), [button](https://www.home-assistant.io/integrations/button/)</td>
   </tr>
 </tbody>
 </table>
