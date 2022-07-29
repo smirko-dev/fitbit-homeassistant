@@ -14,7 +14,7 @@ export const StateMap = {
     paused: "off",
     error: "off",
     idle: "off",
-}
+};
 
 export const ActionMap = {
     on: "turn_off",
@@ -29,13 +29,13 @@ export const ActionMap = {
     paused: "start",
     error: "start",
     idle: "start",
-}
+};
 
 export const ForcedMap = {
     turn_off: "off",
     turn_on: "on",
     close_cover: "closed",
     open_cover: "open",
-    start: "on",
-    stop: "off",
-}
+    start: "cleaning",
+    stop: "idle",
+};
