@@ -65,7 +65,7 @@ Error: <code>
     </td>
   </tr>
   <tr>
-    <td><code>changeEntity(entity, state)</code></td>
+    <td><code>changeEntity(entity, service, state)</code></td>
     <td>
 <code>
 {
