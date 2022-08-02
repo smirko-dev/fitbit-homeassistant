@@ -25,7 +25,7 @@ Supported entity types:
 <tbody>
   <tr>
     <td>on / off</td>
-    <td><a href="https://www.home-assistant.io/integrations/switch/">switch</a>, <a href="https://www.home-assistant.io/integrations/light/">light</a>, <a href="https://www.home-assistant.io/integrations/vacuum/">vacuum</a>, <a href="https://www.home-assistant.io/integrations/group/">group</a></td>
+    <td><a href="https://www.home-assistant.io/integrations/switch/">switch</a>, <a href="https://www.home-assistant.io/integrations/light/">light</a>, <a href="https://www.home-assistant.io/integrations/vacuum/">vacuum</a>, <a href="https://www.home-assistant.io/integrations/fan/">fan</a>, <a href="https://www.home-assistant.io/integrations/group/">group</a></td>
   </tr>
   <tr>
     <td>open / close</td>

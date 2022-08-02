@@ -13,7 +13,8 @@ const Groups = {
     automation: "automation",
     button: "button",
     cover: "cover",
-    vacuum: "vacuum"
+    vacuum: "vacuum",
+    fan: "fan"
 };
 
 const ServiceOverrides = {

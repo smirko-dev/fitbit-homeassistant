@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version 1.1
 
 ### Added
-- Support for vacuum
+- Support for vacuum entities
+- Support for fan entities
 
 ### Changed
 - Minor bug fixes
