@@ -44,7 +44,7 @@ HomeAssistantAPI.prototype.isValid = function() {
 }
 
 /**
- * Configuration validity
+ * Setup API configuration
  * @param {string} url - HomeAssistant instance URL 
  * @param {string} port - HomeAssistant instance port
  * @param {string} token - Access token
