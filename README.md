@@ -66,6 +66,13 @@ App icon is from https://icon-icons.com/de/symbol/home-assistant/138491 ([Apache
 
 ## How to build
 
+Clone the repository
+
+```
+git clone git@github.com:smirko-dev/fitbit-homeassistant.git
+cd fitbit-homeassistant
+```
+
 Choose SDK version
 
 | SDK | Device                            |
@@ -77,9 +84,9 @@ Choose SDK version
 cp package.sdkX.json package.json
 ```
 
+Setup SDK and build the application
+
 ```
-git clone git@github.com:smirko-dev/fitbit-homeassistant.git
-cd fitbit-homeassistant
 npm add --also=dev @fitbit/sdk
 npm add --also=dev @fitbit/sdk-cli
 npx fitbit-build generate-appid
