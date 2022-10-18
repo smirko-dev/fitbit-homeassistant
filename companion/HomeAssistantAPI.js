@@ -48,8 +48,8 @@ export function HomeAssistantAPI() {
  */
 HomeAssistantAPI.prototype.isValid = function() {
     let self = this;
-    return self.url !== undefined && self.port !== undefined && self.token !== undefined &&
-           self.url !== "" && self.port !== "" && self.token !== "";
+    return self.url !== undefined && self.port !== undefined && self.token !== undefined
+        && self.url !== "" && self.port !== "" && self.token !== "";
 }
 
 /**
