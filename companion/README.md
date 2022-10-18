@@ -69,7 +69,7 @@ Error: <code>
     <td>
 <code>
 {
-  "key": "change",
+  "key": "set",
   "id": "<i>entity_id</i>"
   "state": "<i>entity_state</i>"
 }
@@ -77,15 +77,28 @@ Error: <code>
     </td>
   </tr>
   <tr>
-    <td><code>fetchEntity(entity)</code></td>
+    <td><code>fetchEntity(entity)</code><br />update()</td>
     <td>
 <code>
 {
-  "key": "add",
-  "id": "<i>entity_id</i>",
-  "name": "<i>entity_name</i>"
-  "state": "<i>entity_state</i>"
+    "key": "update",
+    "value": "begin"
 }
+</code>
+<code>
+{
+    "key": "add",
+    "index": "<i>index</i>",
+    "id": "<i>entity_id</i>",
+    "name": "<i>entity_name</i>"
+    "state": "<i>entity_state</i>"
+}
+</code>
+<code>
+{
+    "key": "update",
+    "value": "end"
+},
 </code>
     </td>
   </tr>
@@ -106,9 +119,11 @@ Companion
 import { HomeAssistantAPI } from "./HomeAssistantAPI";
 
 var HA = new HomeAssistantAPI();
-HA.setup("127.0.0.1", "8123", "my_secret_access_token", false);
-HA.fetchApiStatus();
-HA.fetchEntity("switch.myswitch");
+if (HA.setup("127.0.0.1", "8123", "my_secret_access_token", false)) {
+    HA.fetchApiStatus();
+    HA.fetchEntity("switch.myswitch");
+    HA.changeEntity("switch.myswitch", "off");
+}
 ```
 
 App
@@ -125,8 +140,17 @@ messaging.peerSocket.onmessage = (evt) => {
           console.log(`Error: ${evt.data.value}`);
       }
     }
+    else if (evt.data.key === "update" && evt.data.value === "begin") {
+       console.log(`Start update`);
+    }
     else if (evt.data.key === "add") {
        console.log(`New entry: ${evt.data.name} = ${evt.data.state}`);
+    }
+    else if (evt.data.key === "update" && evt.data.value === "end") {
+       console.log(`End update`);
+    }
+    else if (evt.data.key === "set") {
+       console.log(`Set entry: ${evt.data.name} = ${evt.data.state}`);
     }
 }
 ```
