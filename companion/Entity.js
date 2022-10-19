@@ -26,36 +26,6 @@ Entity.prototype.isValid = function() {
 }
 
 /**
- * Get entity name
- * @return Entity name if available, otherwise the entity id
- */
-Entity.prototype.getName = function() {
-    let self = this;
-    if (self.name !== undefined && self.name !== "") {
-        return self.name;
-    }
-    return self.id;
-}
-
-/**
- * Get entity state
- * @return Entity state
- */
-Entity.prototype.getState = function() {
-    let self = this;
-    return self.name;
-}
-
-/**
- * Get entity id
- * @return Entity id
- */
-Entity.prototype.getId = function() {
-    let self = this;
-    return self.id;
-}
-
-/**
  * Create Entities class object
  */
 export function Entities() {
