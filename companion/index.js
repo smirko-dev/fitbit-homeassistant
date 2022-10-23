@@ -13,6 +13,7 @@ var HA = new HomeAssistantAPI();
 
 // Load settings
 let settings = loadSettings();
+applySettings();
 
 // Register for the unload event
 me.onunload = saveSettings;
@@ -50,17 +51,7 @@ settingsStorage.onchange = function(evt) {
 
 // Settings changed while companion was not running
 if (companion.launchReasons.settingsChanged) {
-    if (HA.setup(settingsStorage.getItem("url"), settingsStorage.getItem("port"),
-                 settingsStorage.getItem("token"), settingsStorage.getItem("force"))) {
-        HA.fetchApiStatus();
-
-        HA.clear();
-        JSON.parse(settingsStorage?.getItem("entities"))?.forEach((element) => {
-            HA.fetchEntity(element["name"]);
-        });
-        HA.sort();
-        HA.update();
-    }
+    applySettings();
 }
 
 // Message socket opens
@@ -103,5 +94,20 @@ function loadSettings() {
 
 // Save settings
 function saveSettings() {
-    fs.writeFileSync(settingsFile, settings, settingsType);
+    fs.writeFileSync(settingsFile, settingsStorage, settingsType);
+}
+
+// Apply settings
+function applySettings() {
+    if (HA.setup(settingsStorage.getItem("url"), settingsStorage.getItem("port"),
+        settingsStorage.getItem("token"), settingsStorage.getItem("force"))) {
+        HA.fetchApiStatus();
+
+        HA.clear();
+        JSON.parse(settingsStorage?.getItem("entities"))?.forEach((element) => {
+            HA.fetchEntity(element["name"]);
+        });
+        HA.sort();
+        HA.update();
+    }
 }
