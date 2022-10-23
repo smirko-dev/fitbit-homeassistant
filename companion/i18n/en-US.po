@@ -10,3 +10,6 @@ msgstr "Response error"
 
 msgid "error"
 msgstr "Error"
+
+msgid "invalid_config"
+msgstr "Invalid config."

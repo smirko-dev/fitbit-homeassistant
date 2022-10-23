@@ -242,6 +242,10 @@ HomeAssistantAPI.prototype.fetchApiStatus = function() {
             sendData({key: "api", value: self.status});
         })
     }
+    else {
+        self.status = gettext("invalid_config");
+        sendData({key: "api", value: self.status});
+    }
 }
 
 /**

@@ -4,3 +4,12 @@ msgstr "Non disponibile"
 
 msgid "connection_error"
 msgstr "Errore di connessione"
+
+msgid "response_error"
+msgstr "Errore di risposta"
+
+msgid "error"
+msgstr "Errore"
+
+msgid "invalid_config"
+msgstr "Config. non valida"

@@ -10,3 +10,6 @@ msgstr "Antwortfehler"
 
 msgid "error"
 msgstr "Fehler"
+
+msgid "invalid_config"
+msgstr "Ungültige Konfig."
