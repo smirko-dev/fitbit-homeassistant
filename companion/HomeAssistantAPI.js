@@ -53,7 +53,7 @@ HomeAssistantAPI.prototype.isValid = function() {
 }
 
 /**
- * Configuration validity
+ * Setup configuration
  * @param {string} url - HomeAssistant instance URL 
  * @param {string} port - HomeAssistant instance port
  * @param {string} token - Access token
@@ -173,7 +173,7 @@ HomeAssistantAPI.prototype.address = function() {
 
 /**
  * Fetch new entity
- * @param {string} entity - Entity name
+ * @param {string} entity - Entity ID
  */
 HomeAssistantAPI.prototype.fetchEntity = function(entity) {
     let self = this;
@@ -199,6 +199,7 @@ HomeAssistantAPI.prototype.fetchEntity = function(entity) {
                 if (self.isExecutable(data["entity_id"])) {
                     msgData.state = 'exe'
                 }
+                //DEBUG console.log('ADDED ' + JSON.stringify(msgData));
                 self.entities.add(msgData.id, msgData.name, msgData.state);
                 slef.entities.sort();
                 self.update();
@@ -250,7 +251,7 @@ HomeAssistantAPI.prototype.fetchApiStatus = function() {
 
 /**
  * Change entity
- * @param {string} entity - Entity name
+ * @param {string} entity - Entity ID
  * @param {string} state - New state value
  */
 HomeAssistantAPI.prototype.changeEntity = function(entity, state) {
@@ -296,6 +297,7 @@ HomeAssistantAPI.prototype.changeEntity = function(entity, state) {
                                 state: element["state"],
                             };
                             if (!self.isExecutable(element["entity_id"])) {
+                                //DEBUG console.log('UPDATED ' + JSON.stringify(msgData));
                                 self.entities.set(msgData.id, msgData.state);
                                 sendData(msgData);
                             }
@@ -313,7 +315,7 @@ HomeAssistantAPI.prototype.changeEntity = function(entity, state) {
 
 /**
  * Returns if an entity is an executable
- * @param {string} entity - Entity name
+ * @param {string} entity - Entity ID
  * @return True if entity is an executable, otherwise false
  */
 HomeAssistantAPI.prototype.isExecutable = function(entity) {

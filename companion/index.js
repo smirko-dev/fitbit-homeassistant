@@ -20,22 +20,7 @@ me.onunload = saveSettings;
 
 // Settings have been changed
 settingsStorage.onchange = function(evt) {
-    if (evt.key === "url") {
-        let data = JSON.parse(evt.newValue);
-        HA.changeUrl(data["name"]);
-        HA.fetchApiStatus();
-    }
-    else if (evt.key === "port") {
-        let data = JSON.parse(evt.newValue);
-        HA.changePort(data["name"]);
-        HA.fetchApiStatus();
-    }
-    else if (evt.key === "token") {
-        let data = JSON.parse(evt.newValue);
-        HA.changeToken(data["name"]);
-        HA.fetchApiStatus();
-    }
-    else if (evt.key === "entities") {
+    if (evt.key === "entities") {
         HA.clear();
         JSON.parse(evt.newValue).forEach(element => {
             HA.fetchEntity(element["name"]);
@@ -43,9 +28,23 @@ settingsStorage.onchange = function(evt) {
         HA.sort();
         HA.update();
     }
-    else if (evt.key === "force") {
+    else {
         let data = JSON.parse(evt.newValue);
-        HA.changeForce(data);
+        if (evt.key === "url") {
+            HA.changeUrl(data["name"]);
+        }
+        else if (evt.key === "port") {
+            HA.changePort(data["name"]);
+        }
+        else if (evt.data === "token") {
+            HA.changeToken(data["name"]);
+        }
+        else if (evt.key === "force") {
+            HA.changeForce(data);
+        }
+        if (HA.isValid()) {
+            HA.fetchApiStatus();
+        }
     }
 }
 
