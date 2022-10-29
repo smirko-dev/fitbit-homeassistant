@@ -10,7 +10,7 @@ import document from "document";
 
 const EntityList = document.getElementById("entityList");
 const AddressText = document.getElementById("addressText");
-AddressText.text = gettext("unavailable");
+AddressText.text = gettext("loading");
 
 // List of {id: "", name: "", state: ""}
 let Entities = [];
