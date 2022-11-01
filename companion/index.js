@@ -16,7 +16,7 @@ let settings = loadSettings();
 applySettings();
 
 // Register for the unload event
-me.onunload = saveSettings;
+companion.onunload = saveSettings;
 
 // Settings have been changed
 settingsStorage.onchange = function(evt) {

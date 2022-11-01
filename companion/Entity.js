@@ -35,7 +35,7 @@ export function Entities() {
 /**
  * Clear entity list
  */
-HomeAssistantAPI.prototype.clear = function() {
+Entities.prototype.clear = function() {
     let self = this;
     self.list = [];
 }

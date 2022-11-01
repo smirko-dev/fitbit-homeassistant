@@ -76,7 +76,7 @@ HomeAssistantAPI.prototype.update = function() {
     let self = this;
     sendData({key: "api", value: self.status, name: self.name});
     sendData({key: "update", value: "begin"});
-    self.entities.forEach((entity, index) => {
+    self.entities.list.forEach((entity, index) => {
         sendData({key: "add", index: index, id: entity.id, name: entity.name, state: entity.state});
     });
     sendData({key: "update", value: "end"});
