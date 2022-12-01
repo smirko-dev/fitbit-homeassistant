@@ -77,7 +77,7 @@ Error: <code>
     </td>
   </tr>
   <tr>
-    <td><code>fetchEntity(entity)</code><br />update()</td>
+    <td><code>fetchEntity(entity)</code><br /><code>update()</code></td>
     <td>
 <code>
 {
