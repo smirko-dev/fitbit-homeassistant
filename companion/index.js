@@ -11,82 +11,102 @@ import { HomeAssistantAPI } from "./HomeAssistantAPI";
 // Create HomeAssistantAPI object
 var HA = new HomeAssistantAPI();
 
+// Load settings
+let settings = loadSettings();
+applySettings();
+
+// Register for the unload event
+companion.onunload = saveSettings;
+
 // Settings have been changed
 settingsStorage.onchange = function(evt) {
-    if (evt.key === "url") {
-        let data = JSON.parse(evt.newValue);
-        sendData({key: "url", value: data["name"]});
-    }
-    else if (evt.key === "port") {
-        let data = JSON.parse(evt.newValue);
-        sendData({key: "port", value: data["name"]});
-    }
-    else if (evt.key === "token") {
-        let data = JSON.parse(evt.newValue);
-        sendData({key: "token", value: data["name"]});
-    }
-    else if (evt.key === "entities") {
-        sendData({key: "clear"});
+    if (evt.key === "entities") {
+        HA.clear();
         JSON.parse(evt.newValue).forEach(element => {
             HA.fetchEntity(element["name"]);
         });
+        HA.sort();
+        HA.update();
     }
-    else if (evt.key === "force") {
+    else {
         let data = JSON.parse(evt.newValue);
-        sendData({key: "force", value: data});
+        if (evt.key === "url") {
+            HA.changeUrl(data["name"]);
+        }
+        else if (evt.key === "port") {
+            HA.changePort(data["name"]);
+        }
+        else if (evt.data === "token") {
+            HA.changeToken(data["name"]);
+        }
+        else if (evt.key === "force") {
+            HA.changeForce(data);
+        }
+        if (HA.isValid()) {
+            HA.fetchApiStatus();
+        }
     }
 }
 
 // Settings changed while companion was not running
 if (companion.launchReasons.settingsChanged) {
-    const keys = ["url", "port", "token", "force"];
-    keys.forEach(function(keyName, index, array) {
-        sendData({key: keyName, value: settingsStorage.getItem(keyName)});
-    });
-    sendData({key: "clear"});
-    JSON.parse(settingsStorage?.getItem("entities"))?.forEach((element) => {
-        HA.fetchEntity(element["name"]);
-    });
+    applySettings();
 }
 
 // Message socket opens
 messaging.peerSocket.onopen = () => {
-    console.log('Socket open');
+    console.log('Companion socket open');
 };
 
 // Message socket closes
 messaging.peerSocket.onclose = () => {
-    console.log('Socket closed');
+    console.log('Companion socket closed');
 };
 
 // Received message from App
 messaging.peerSocket.onmessage = evt => {
     console.log('Received', JSON.stringify(evt.data));
-    if (evt.data.key === "change") {
+    if (evt.data.key === "set") {
         HA.changeEntity(evt.data.entity, evt.data.state);
     }
-    else if (evt.data.key === "url") {
-        HA.changeUrl(evt.data.value);
-        HA.fetchApiStatus();
-    }
-    else if (evt.data.key === "port") {
-        HA.changePort(evt.data.value);
-        HA.fetchApiStatus();
-    }
-    else if (evt.data.key === "token") {
-        HA.changeToken(evt.data.value);
-        HA.fetchApiStatus();
-    }
-    else if (evt.data.key === "entities") {
-        if (evt.data.value) {
-            sendData({key: "clear"});
-            evt.data.value.forEach(element => {
-                HA.fetchEntity(element["name"]);
-            })
-        }
-    }
-    else if (evt.data.key === "force") {
-        HA.changeForce(evt.data.value);
-        HA.fetchApiStatus();
+    else if (evt.data.key === "refresh") {
+        HA.update();
     }
 };
+
+// Load settings
+function loadSettings() {
+    try {
+        return fs.readFileSync(settingsFile, settingsType);
+    }
+    catch (ex) {
+        console.error("Error loading settings");
+        // Default values
+        return {
+            url: "localhost",
+            port: "8123",
+            token: "",
+            force: true
+        };
+    }
+}
+
+// Save settings
+function saveSettings() {
+    fs.writeFileSync(settingsFile, settingsStorage, settingsType);
+}
+
+// Apply settings
+function applySettings() {
+    if (HA.setup(settingsStorage.getItem("url"), settingsStorage.getItem("port"),
+        settingsStorage.getItem("token"), settingsStorage.getItem("force"))) {
+        HA.fetchApiStatus();
+
+        HA.clear();
+        JSON.parse(settingsStorage?.getItem("entities"))?.forEach((element) => {
+            HA.fetchEntity(element["name"]);
+        });
+        HA.sort();
+        HA.update();
+    }
+}

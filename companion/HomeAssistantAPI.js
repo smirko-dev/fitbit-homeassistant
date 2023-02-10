@@ -4,6 +4,7 @@
  */
 import { gettext } from "i18n";
 import { sendData, isEmpty } from "../common/utils";
+import { Entity, Entities } from "./Entity";
 
 const Groups = {
     switch: "switch",
@@ -36,11 +37,14 @@ export function HomeAssistantAPI() {
     this.port = "";
     this.token = "";
     this.force = false;
+    this.status = "loading";
+    this.name = "";
+    this.entities = new Entities();
 }
 
 /**
  * Configuration validity
- * @return True if configuration contains valid data, otherwise false.
+ * @return True if configuration contains valid data, otherwise false
  */
 HomeAssistantAPI.prototype.isValid = function() {
     let self = this;
@@ -49,11 +53,12 @@ HomeAssistantAPI.prototype.isValid = function() {
 }
 
 /**
- * Configuration validity
+ * Setup configuration
  * @param {string} url - HomeAssistant instance URL 
  * @param {string} port - HomeAssistant instance port
  * @param {string} token - Access token
  * @param {boolean} force - Force update flag
+ * @return True if configuration is valid
  */
 HomeAssistantAPI.prototype.setup = function(url, port, token, force) {
     let self = this;
@@ -61,11 +66,42 @@ HomeAssistantAPI.prototype.setup = function(url, port, token, force) {
     self.changePort(port);
     self.changeToken(token);
     self.changeForce(force);
+    return self.isValid();
+}
+
+/**
+ * Send update of api status and all entities
+ */
+HomeAssistantAPI.prototype.update = function() {
+    let self = this;
+    sendData({key: "api", value: self.status, name: self.name});
+    sendData({key: "update", value: "begin"});
+    self.entities.list.forEach((entity, index) => {
+        sendData({key: "add", index: index, id: entity.id, name: entity.name, state: entity.state});
+    });
+    sendData({key: "update", value: "end"});
+}
+
+/**
+ * Clear internal entity list
+ */
+HomeAssistantAPI.prototype.clear = function() {
+    let self = this;
+    self.entities.clear();
+}
+
+/**
+ * Sort internal entity list
+ */
+HomeAssistantAPI.prototype.sort = function() {
+    let self = this;
+    self.entities.sort();
 }
 
 /**
  * Change URL
- * @param {string} url - HomeAssistant instance URL 
+ * @param {string} url - HomeAssistant instance URL
+ * @return True if configuration is valid
  */
 HomeAssistantAPI.prototype.changeUrl = function(url) {
     let self = this;
@@ -75,11 +111,13 @@ HomeAssistantAPI.prototype.changeUrl = function(url) {
     else {
         self.url = '127.0.0.1';
     }
+    return self.isValid();
 }
 
 /**
  * Change port number
  * @param {string} port - HomeAssistant instance port
+ * @return True if configuration is valid
  */
 HomeAssistantAPI.prototype.changePort = function(port) {
     let self = this;
@@ -89,11 +127,13 @@ HomeAssistantAPI.prototype.changePort = function(port) {
     else {
         self.port = '8123';
     }
+    return self.isValid();
 }
 
 /**
  * Change token
  * @param {string} token - Access token
+ * @return True if configuration is valid
  */
 HomeAssistantAPI.prototype.changeToken = function(token) {
     let self = this;
@@ -103,11 +143,13 @@ HomeAssistantAPI.prototype.changeToken = function(token) {
     else {
         self.token = '';
     }
+    return self.isValid();
 }
 
 /**
  * Change force update flag
  * @param {boolean} force - Force update flag
+ * @return True if configuration is valid
  */
 HomeAssistantAPI.prototype.changeForce = function(force) {
     let self = this;
@@ -117,6 +159,7 @@ HomeAssistantAPI.prototype.changeForce = function(force) {
     else {
         self.force = true;
     }
+    return self.isValid();
 }
 
 /**
@@ -129,8 +172,8 @@ HomeAssistantAPI.prototype.address = function() {
 }
 
 /**
- * Fetch entity
- * @param {string} entity - Entity name
+ * Fetch new entity
+ * @param {string} entity - Entity ID
  */
 HomeAssistantAPI.prototype.fetchEntity = function(entity) {
     let self = this;
@@ -146,7 +189,6 @@ HomeAssistantAPI.prototype.fetchEntity = function(entity) {
             if (response.ok) {
                 let data = await response.json();
                 let msgData = {
-                    key: "add",
                     id: data["entity_id"],
                     name: data["entity_id"],
                     state: data["state"],
@@ -157,7 +199,10 @@ HomeAssistantAPI.prototype.fetchEntity = function(entity) {
                 if (self.isExecutable(data["entity_id"])) {
                     msgData.state = 'exe'
                 }
-                sendData(msgData);
+                //DEBUG console.log('ADDED ' + JSON.stringify(msgData));
+                self.entities.add(msgData.id, msgData.name, msgData.state);
+                slef.entities.sort();
+                self.update();
             }
             else {
                 console.log(`[fetchEntity] ${gettext("error")} ${response.status}`);
@@ -183,26 +228,30 @@ HomeAssistantAPI.prototype.fetchApiStatus = function() {
         .then(async(response) => {
             let data = await response.json();
             if (response.status === 200) {
-                sendData({key: "api", value: "ok", name: data["location_name"]});
+                self.status = "ok";
+                self.name = data["location_name"];
+                sendData({key: "api", value: "ok", name: self.name});
             }
             else {
-                const json = JSON.stringify({
-                    key: "api",
-                    value: `${gettext("error")} ${response.status}`
-                });
-                sendData(json);
+                self.status = `${gettext("error")} ${response.status}`;
+                sendData({key: "api", value: self.status});
             }
         })
         .catch(err => {
             console.log('[fetchApiStatus]: ' + err);
-            sendData({key: "api", value: gettext("connection_error")});
+            self.status = gettext("connection_error");
+            sendData({key: "api", value: self.status});
         })
+    }
+    else {
+        self.status = gettext("invalid_config");
+        sendData({key: "api", value: self.status});
     }
 }
 
 /**
  * Change entity
- * @param {string} entity - Entity name
+ * @param {string} entity - Entity ID
  * @param {string} state - New state value
  */
 HomeAssistantAPI.prototype.changeEntity = function(entity, state) {
@@ -229,12 +278,13 @@ HomeAssistantAPI.prototype.changeEntity = function(entity, state) {
                 //DEBUG console.log('RECEIVED ' + JSON.stringify(data));
                 if (self.force) {
                     let msgData = {
-                        key: "change",
+                        key: "set",
                         id: entity,
                         state: ForcedStates[state] || state,
                     };
                     if (!self.isExecutable(entity)) {
                         //DEBUG console.log('FORCED ' + JSON.stringify(msgData));
+                        self.entities.set(msgData.id, msgData.state);
                         sendData(msgData);
                     }
                 }
@@ -242,11 +292,13 @@ HomeAssistantAPI.prototype.changeEntity = function(entity, state) {
                     data.forEach(element => {
                         if (element["entity_id"] === entity) {
                             let msgData = {
-                                key: "change",
+                                key: "set",
                                 id: element["entity_id"],
                                 state: element["state"],
                             };
                             if (!self.isExecutable(element["entity_id"])) {
+                                //DEBUG console.log('UPDATED ' + JSON.stringify(msgData));
+                                self.entities.set(msgData.id, msgData.state);
                                 sendData(msgData);
                             }
                         }
@@ -263,7 +315,7 @@ HomeAssistantAPI.prototype.changeEntity = function(entity, state) {
 
 /**
  * Returns if an entity is an executable
- * @param {string} entity - Entity name
+ * @param {string} entity - Entity ID
  * @return True if entity is an executable, otherwise false
  */
 HomeAssistantAPI.prototype.isExecutable = function(entity) {

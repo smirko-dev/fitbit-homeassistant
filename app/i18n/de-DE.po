@@ -2,6 +2,9 @@
 msgid "unavailable"
 msgstr "N/A"
 
+msgid "loading"
+msgstr "Lade..."
+
 msgid "on"
 msgstr "AN"
 
