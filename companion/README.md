@@ -48,18 +48,17 @@ The asynchronous answer will be packed as JSON in a socket message.
   <tr>
     <td><code>fetchApiStatus()</code></td>
     <td>
-Ok: <code>
+Ok:
+<code>
 {
-  "key": "api",
-  "value": "ok",
-  "name": "<i>location_name</i>"
+  "key": "api", "value": "ok", "name": "<i>location_name</i>"
 }
 </code>
 <br />
-Error: <code>
+Error:
+<code>
 {
-  "key": "api",
-  "value": "<i>error_message</i>"
+  "key": "api", "value": "<i>error_message</i>"
 }
 </code>
     </td>
@@ -69,9 +68,7 @@ Error: <code>
     <td>
 <code>
 {
-  "key": "set",
-  "id": "<i>entity_id</i>"
-  "state": "<i>entity_state</i>"
+  "key": "set", "id": "<i>entity_id</i>", "state": "<i>entity_state</i>"
 }
 </code>
     </td>
@@ -79,26 +76,23 @@ Error: <code>
   <tr>
     <td><code>fetchEntity(entity)</code><br /><code>update()</code></td>
     <td>
+Start update:
 <code>
 {
-    "key": "update",
-    "value": "begin"
+    "key": "update", "value": "begin"
 }
 </code>
+Add entries:
 <code>
 {
-    "key": "add",
-    "index": "<i>index</i>",
-    "id": "<i>entity_id</i>",
-    "name": "<i>entity_name</i>"
-    "state": "<i>entity_state</i>"
+    "key": "add", "index": "<i>index</i>", "id": "<i>entity_id</i>", "name": "<i>entity_name</i>", "state": "<i>entity_state</i>"
 }
 </code>
+Update is done:
 <code>
 {
-    "key": "update",
-    "value": "end"
-},
+    "key": "update", "value": "end"
+}
 </code>
     </td>
   </tr>
